@@ -1,0 +1,7 @@
+.idea
+out
+target
+resources
+*.iml
+log
+*.patch
