@@ -40,6 +40,17 @@ public class Vote extends AbstractBaseEntity {
 
     @ManyToOne()
     @JoinColumn(name = "restaurant_id")
+    @Setter
     private Restaurant restaurant;
 
+    @Override
+    public String toString() {
+        return "Vote{" +
+                "voteDate=" + voteDate +
+                ", voteTime=" + voteTime +
+                ", actual=" + actual +
+                ", userId=" + user.id() +
+                ", restaurantId=" + restaurant.id() +
+                '}';
+    }
 }

@@ -1,13 +1,11 @@
 package restaurant.rest.api.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Set;
 
 @Getter
@@ -30,7 +28,10 @@ public class Restaurant extends AbstractBaseEntity {
         this.name = name;
     }
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REFRESH)
     private Set<Menu> menus;
+
+    @OneToMany(cascade = CascadeType.REFRESH)
+    private Set<Vote> votes;
 
 }

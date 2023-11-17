@@ -1,8 +1,8 @@
 package restaurant.rest.api.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,5 +33,15 @@ public class MenuItem extends AbstractBaseEntity {
 
     @ManyToOne()
     @JoinColumn(name = "menu_id")
+    @Setter
     private Menu menu;
+
+    @Override
+    public String toString() {
+        return "MenuItem{" +
+                "dish='" + dish + '\'' +
+                ", price=" + price +
+                ", menuId=" + menu.id() +
+                '}';
+    }
 }

@@ -1,17 +1,14 @@
 package restaurant.rest.api.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-
-import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.Set;
+
 
 @Getter
 @Entity
@@ -34,6 +31,14 @@ public class User extends AbstractBaseEntity {
     @Column(name = "registered")
     private final LocalDateTime registered;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
+
+    @OneToMany(cascade = CascadeType.REFRESH)
+    private Set<Vote> votes;
+
+
 
     public User(){
         this.registered = LocalDateTime.now();
@@ -46,4 +51,13 @@ public class User extends AbstractBaseEntity {
         this.registered = LocalDateTime.now();
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", registered=" + registered +
+                '}';
+    }
 }
