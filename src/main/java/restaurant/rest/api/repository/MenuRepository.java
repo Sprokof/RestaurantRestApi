@@ -2,6 +2,7 @@ package restaurant.rest.api.repository;
 
 import restaurant.rest.api.model.Menu;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface MenuRepository {
@@ -9,4 +10,5 @@ public interface MenuRepository {
     boolean delete(int id, int restaurantId);
     Menu get(int id, int restaurantId);
     List<Menu> getAll(int restaurantId);
+    boolean updatePrevision(boolean actual, int restaurantId);
 }

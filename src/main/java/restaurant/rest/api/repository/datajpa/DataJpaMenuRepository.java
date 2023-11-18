@@ -46,5 +46,10 @@ public class DataJpaMenuRepository implements MenuRepository {
     public List<Menu> getAll(int restaurantId) {
         return this.menuRepository.getAll(restaurantId);
     }
+
+    @Override
+    public boolean updatePrevision(boolean actual, int restaurantId) {
+        return this.menuRepository.updatePrevision(actual, restaurantId) != 0;
+    }
 }
 

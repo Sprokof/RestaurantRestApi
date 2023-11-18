@@ -15,10 +15,9 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query("DELETE FROM User u WHERE u.id=:id")
     int delete(@Param("id") int id);
+    @EntityGraph(attributePaths = "roles")
     User getByEmail(String email);
 
-    @EntityGraph(attributePaths = "roles")
-    @Query("SELECT u FROM User u JOIN FETCH u.votes v WHERE u.id=:id AND u.votes.actual is true")
-    User getWithVotes(@Param("id") int id);
+
 
 }

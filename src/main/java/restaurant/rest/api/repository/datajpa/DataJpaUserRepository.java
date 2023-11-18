@@ -2,6 +2,7 @@ package restaurant.rest.api.repository.datajpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import restaurant.rest.api.model.User;
@@ -22,6 +23,7 @@ public class DataJpaUserRepository implements UserRepository {
     }
 
     @Override
+    @Transactional
     public User save(User user) {
         if(user.isNew()){
             return repository.save(user);
@@ -30,6 +32,7 @@ public class DataJpaUserRepository implements UserRepository {
     }
 
     @Override
+    @EntityGraph(attributePaths = "roles")
     public User get(int id) {
         return repository.findById(id).orElse(null);
     }
@@ -49,9 +52,5 @@ public class DataJpaUserRepository implements UserRepository {
         return repository.getByEmail(email);
     }
 
-    @Override
-    public User getWithVotes(int id) {
-        return this.repository.getWithVotes(id);
-    }
 
 }

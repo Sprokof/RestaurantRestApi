@@ -8,6 +8,7 @@ import restaurant.rest.api.model.User;
 import restaurant.rest.api.model.Vote;
 import restaurant.rest.api.repository.VoteRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -29,6 +30,7 @@ public class DataJpaVoteRepository implements VoteRepository  {
     }
 
     @Override
+    @Transactional
     public Vote save(Vote vote, int userId, int restaurantId) {
         User userRef = userRepository.getReferenceById(userId);
         Restaurant restaurantRef = restaurantRepository.getReferenceById(restaurantId);
@@ -62,8 +64,19 @@ public class DataJpaVoteRepository implements VoteRepository  {
         return this.voteRepository.getAllByRestaurantId(restaurantId);
     }
 
+
     @Override
-    public List<Vote> getAll() {
-        return this.voteRepository.getAll();
+    public Vote getByLocalDate(LocalDate localDate, int userId) {
+        return this.voteRepository.getByLocalDate(localDate, userId);
+    }
+
+    @Override
+    public boolean updateAll(boolean actual, int restaurantId) {
+        return this.voteRepository.updateAll(actual, restaurantId) != 0;
+    }
+
+    @Override
+    public int countActualVotes(int restaurantId) {
+        return this.voteRepository.countActualVotes(restaurantId);
     }
 }

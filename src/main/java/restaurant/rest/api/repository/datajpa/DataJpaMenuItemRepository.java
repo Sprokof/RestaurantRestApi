@@ -19,6 +19,7 @@ public class DataJpaMenuItemRepository implements MenuItemRepository {
     }
 
     @Override
+    @Transactional
     public MenuItem save(MenuItem item, int menuId) {
         Menu ref = menuRepository.getReferenceById(menuId);
         item.setMenu(ref);

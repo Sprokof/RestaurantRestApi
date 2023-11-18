@@ -3,12 +3,11 @@ package restaurant.rest.api.model;
 import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -33,14 +32,17 @@ public class Vote extends AbstractBaseEntity {
         this.actual = true;
     }
 
-    @ManyToOne()
-    @JoinColumn(name = "user_id")
     @Setter
+    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @ManyToOne()
-    @JoinColumn(name = "restaurant_id")
+
     @Setter
+    @JoinColumn(name = "restaurant_id")
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
     @Override
@@ -53,4 +55,5 @@ public class Vote extends AbstractBaseEntity {
                 ", restaurantId=" + restaurant.id() +
                 '}';
     }
+
 }

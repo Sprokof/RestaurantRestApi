@@ -42,11 +42,6 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
     }
 
     @Override
-    public Restaurant getWithVotes(int id) {
-        return this.repository.getWithVotes(id);
-    }
-
-    @Override
     public List<Restaurant> getAll() {
         return this.repository.findAll();
     }
@@ -59,5 +54,15 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
     @Override
     public List<Restaurant> getAllWithMenuByDate(LocalDate date) {
         return this.repository.getAllWithMenuByDate(date);
+    }
+
+    @Override
+    public Restaurant getWithMaxVotesByDate(LocalDate date) {
+        return this.repository.getWithMaxVotesByDate(date);
+    }
+
+    @Override
+    public boolean updateVotesCount(int restaurantId) {
+        return this.repository.updateVotesCount(restaurantId) != 0;
     }
 }

@@ -35,10 +35,6 @@ public class User extends AbstractBaseEntity {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToMany(cascade = CascadeType.REFRESH)
-    private Set<Vote> votes;
-
-
 
     public User(){
         this.registered = LocalDateTime.now();
