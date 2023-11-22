@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -29,23 +30,46 @@ public class User extends AbstractBaseEntity {
     private String password;
 
     @Column(name = "registered")
-    private final LocalDateTime registered;
+    @Setter
+    private LocalDateTime registered;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
+    @Setter
     private Set<Role> roles;
+
+    public void addRole(Role role){
+        if(this.roles == null) this.roles = new HashSet<>();
+        this.roles.add(role);
+    }
 
 
     public User(){
         this.registered = LocalDateTime.now();
     }
 
-    public User(String name, String email, String password){
+    public User(String name, String email, String password, Role role){
         this.name = name;
         this.email = email;
         this.password = password;
         this.registered = LocalDateTime.now();
+        addRole(role);
     }
+
+
+    public User(String name, String email, String password, LocalDateTime registered, Set<Role> roles){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.registered = registered;
+        this.roles = roles;
+    }
+
+
+    public User(User user){
+        this(user.name, user.email, user.password, user.registered, user.roles);
+    }
+
 
     @Override
     public String toString() {

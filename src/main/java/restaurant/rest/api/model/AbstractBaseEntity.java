@@ -1,19 +1,18 @@
 package restaurant.rest.api.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import org.springframework.data.domain.Persistable;
 import org.springframework.util.Assert;
+
+import java.util.Objects;
 
 public class AbstractBaseEntity implements Persistable<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
-
-    public AbstractBaseEntity(){}
-
 
     @Override
     public boolean isNew() {
@@ -43,7 +42,7 @@ public class AbstractBaseEntity implements Persistable<Integer> {
     @Override
     public boolean equals(Object obj) {
         if(this == obj) return true;
-        if(!(obj instanceof AbstractBaseEntity)) return false;
-        return id.equals(((AbstractBaseEntity) obj).id);
+        if(!(obj instanceof AbstractBaseEntity entity)) return false;
+        return Objects.equals(this.id, entity.id);
     }
 }

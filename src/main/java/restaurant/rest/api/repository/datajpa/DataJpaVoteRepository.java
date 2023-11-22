@@ -21,7 +21,6 @@ public class DataJpaVoteRepository implements VoteRepository  {
 
     private final CrudRestaurantRepository restaurantRepository;
 
-    @Autowired
     public DataJpaVoteRepository(CrudVoteRepository voteRepository, CrudUserRepository userRepository,
                                  CrudRestaurantRepository restaurantRepository){
         this.voteRepository = voteRepository;
@@ -75,8 +74,5 @@ public class DataJpaVoteRepository implements VoteRepository  {
         return this.voteRepository.updateAll(actual, restaurantId) != 0;
     }
 
-    @Override
-    public int countActualVotes(int restaurantId) {
-        return this.voteRepository.countActualVotes(restaurantId);
-    }
+
 }

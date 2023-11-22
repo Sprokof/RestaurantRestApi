@@ -24,7 +24,8 @@ public class MenuItem extends AbstractBaseEntity {
     private double price;
 
 
-    public MenuItem(){}
+    public MenuItem(){
+    }
 
     public MenuItem(String dish, double price){
         this.dish = dish;

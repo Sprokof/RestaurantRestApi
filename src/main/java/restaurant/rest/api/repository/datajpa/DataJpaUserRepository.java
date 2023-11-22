@@ -17,7 +17,6 @@ public class DataJpaUserRepository implements UserRepository {
 
     private final CrudUserRepository repository;
 
-    @Autowired
     public DataJpaUserRepository(CrudUserRepository repository){
         this.repository = repository;
     }

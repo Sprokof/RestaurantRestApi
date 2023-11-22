@@ -15,7 +15,6 @@ public class DataJpaMenuRepository implements MenuRepository {
 
     private final CrudRestaurantRepository restaurantRepository;
 
-    @Autowired
     public DataJpaMenuRepository(CrudMenuRepository menuRepository, CrudRestaurantRepository restaurantRepository){
         this.menuRepository = menuRepository;
         this.restaurantRepository = restaurantRepository;

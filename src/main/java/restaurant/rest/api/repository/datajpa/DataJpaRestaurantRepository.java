@@ -14,16 +14,15 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
 
     private final CrudRestaurantRepository repository;
 
-    @Autowired
     public DataJpaRestaurantRepository(CrudRestaurantRepository repository){
         this.repository = repository;
     }
 
     @Override
     @Transactional
-    public Restaurant save(Restaurant restaurant, int id) {
+    public Restaurant save(Restaurant restaurant) {
         return restaurant.isNew() ? repository.save(restaurant)
-                : (get(id) != null ? repository.save(restaurant) : null);
+                : (get(restaurant.id()) != null ? repository.save(restaurant) : null);
     }
 
     @Override

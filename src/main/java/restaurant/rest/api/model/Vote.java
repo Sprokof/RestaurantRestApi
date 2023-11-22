@@ -1,6 +1,6 @@
 package restaurant.rest.api.model;
 
-import jakarta.persistence.Column;
+import javax.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;

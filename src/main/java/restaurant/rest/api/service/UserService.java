@@ -43,4 +43,8 @@ public class UserService {
     public List<User> getAll(){
         return this.repository.getAll();
     }
+
+    public User getByEmail(String email){
+        return this.repository.getByEmail(email);
+    }
 }

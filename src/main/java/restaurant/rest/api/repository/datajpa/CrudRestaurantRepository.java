@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import restaurant.rest.api.model.Restaurant;
-import restaurant.rest.api.model.User;
-import restaurant.rest.api.model.Vote;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,6 +36,6 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Modifying
     @Transactional
     @Query("UPDATE r Restaurant SET r.countVotes = (SELECT v.countVotes FROM Vote v WHERE v.restaurant.id=:r_id AND v.actual is true)")
-    int updateVotesCount(int restaurantId);
+    int updateVotesCount(@Param("r_id") int restaurantId);
 
 }

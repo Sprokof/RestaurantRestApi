@@ -6,8 +6,8 @@ import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -31,13 +31,19 @@ public class Menu extends AbstractBaseEntity {
         this.actual = true;
     }
 
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "menu", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @BatchSize(size = 5)
     @Setter
     private Set<MenuItem> menuItems;
 
     @ManyToOne()
     private Restaurant restaurant;
+
+    public void addItem(MenuItem menuItem){
+        if(this.menuItems == null) this.menuItems = new HashSet<>();
+        this.menuItems.add(menuItem);
+        menuItem.setMenu(this);
+    }
 
     @Override
     public String toString() {
