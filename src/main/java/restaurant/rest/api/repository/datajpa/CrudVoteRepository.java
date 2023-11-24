@@ -16,11 +16,11 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @Modifying
     @Query("DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:u_id AND v.restaurant.id=:r_id")
     int delete(@Param("id") int id, @Param("u_id") int userId, @Param("r_id") int restaurantId);
-    @Query("SELECT v FROM Vote v WHERE v.id=:id AND v.user.id=:u_id AND v.restaurant.id")
+    @Query("SELECT v FROM Vote v WHERE v.id=:id AND v.user.id=:u_id AND v.restaurant.id=:r_id")
     Vote get(@Param("id") int id, @Param("u_id") int userId, @Param("r_id") int restaurantId);
     @Query("SELECT v FROM Vote v WHERE v.user.id=:u_id")
     List<Vote> getAllByUserId(@Param("u_id") int userId);
-    @Query("SELECT v FROM Vote v WHERE v.acutal is true AND v.restuarant.id=:r_id")
+    @Query("SELECT v FROM Vote v WHERE v.actual is true AND v.restaurant.id=:r_id")
     List<Vote> getAllByRestaurantId(@Param("r_id")int restaurantId);
     @Query("SELECT v FROM Vote v WHERE v.voteDate=:date AND v.actual is true AND v.user.id=:u_id")
     Vote getByLocalDate(@Param("date") LocalDate localDate, @Param("u_id") int userId);

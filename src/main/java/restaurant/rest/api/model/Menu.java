@@ -25,7 +25,7 @@ public class Menu extends AbstractBaseEntity {
     @Column(name = "actual")
     private boolean actual;
 
-    public Menu(){
+    public Menu() {
         this.date = LocalDate.now();
         this.time = LocalTime.now();
         this.actual = true;

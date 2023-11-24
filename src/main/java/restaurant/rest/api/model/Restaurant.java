@@ -30,7 +30,7 @@ public class Restaurant extends AbstractBaseEntity {
 
     @Column(name = "count_votes")
     @Setter
-    private int count_votes;
+    private int countVotes;
 
     public Restaurant(){
 
@@ -43,6 +43,7 @@ public class Restaurant extends AbstractBaseEntity {
     }
 
     @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST}, mappedBy = "restaurant", fetch = FetchType.LAZY)
+    @Setter
     private Set<Menu> menus;
 
     public void addMenu(Menu menu){
@@ -57,7 +58,7 @@ public class Restaurant extends AbstractBaseEntity {
                 "id=" + id + '\'' +
                 ", description='" + description + '\'' +
                 ", name='" + name + '\'' +
-                ", count_votes=" + count_votes + '\'' +
+                ", countVotes=" + countVotes + '\'' +
                 '}';
     }
 }

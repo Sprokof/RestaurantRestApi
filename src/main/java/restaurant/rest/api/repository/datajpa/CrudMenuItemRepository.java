@@ -14,14 +14,14 @@ public interface CrudMenuItemRepository extends JpaRepository<MenuItem, Integer>
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM MenuItem mi WHERE mi.id=:id AND m.menu.id=:m_id")
+    @Query("DELETE FROM MenuItem mi WHERE mi.id=:id AND mi.menu.id=:m_id")
     int delete(@Param("id") int id, @Param("m_id") int menuId);
 
-    @Query("SELECT mi FROM Menu mi WHERE mi.id=:id AND mi.menu.id=:m_id")
+    @Query("SELECT mi FROM MenuItem mi WHERE mi.id=:id AND mi.menu.id=:m_id")
     MenuItem get(@Param("id") int id, @Param("m_id") int menuId);
 
-    @Query("SELECT mi FROM Menu mi WHERE mi.menu.id=:m_id")
-    Set<MenuItem> getAll(int menuId);
+    @Query("SELECT mi FROM MenuItem mi WHERE mi.menu.id=:m_id")
+    Set<MenuItem> getAll(@Param("m_id") int menuId);
 
 
 }

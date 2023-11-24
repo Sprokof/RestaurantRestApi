@@ -19,7 +19,7 @@ public class Vote extends AbstractBaseEntity {
     @Column(name = "vote_date")
     private final LocalDate voteDate;
 
-    @Column(name = "voteTime")
+    @Column(name = "vote_time")
     private final LocalTime voteTime;
 
     @Setter

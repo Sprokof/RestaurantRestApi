@@ -1,13 +1,14 @@
 package restaurant.rest.api.repository.datajpa;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import restaurant.rest.api.model.Menu;
 import restaurant.rest.api.model.MenuItem;
 import restaurant.rest.api.repository.MenuItemRepository;
 
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 
+@Service
 @Transactional(readOnly = true)
 public class DataJpaMenuItemRepository implements MenuItemRepository {
     private final CrudMenuItemRepository itemRepository;

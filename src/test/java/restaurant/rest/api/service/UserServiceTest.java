@@ -1,25 +1,27 @@
-package service;
+package restaurant.rest.api.service;
 
-import config.ServiceTestConfig;
-import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import restaurant.rest.api.config.ServiceTestConfig;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import restaurant.rest.api.model.Role;
 import restaurant.rest.api.model.User;
-import restaurant.rest.api.service.UserService;
 import restaurant.rest.api.util.exception.NotFoundException;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
-import static data.UserTestData.*;
+import static restaurant.rest.api.data.UserTestData.*;
 import static org.junit.Assert.assertThrows;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ServiceTestConfig.class)
 public class UserServiceTest {
 
-    @MockBean
+    @Autowired
     UserService service;
 
     @Test
@@ -34,9 +36,10 @@ public class UserServiceTest {
 
     @Test
     public void delete(){
-        service.delete(USER_ID);
-        assertThrows(NotFoundException.class, () -> service.get(USER_ID));
+        service.delete(CREATED_USER_ID);
+        assertThrows(NotFoundException.class, () -> service.get(CREATED_USER_ID));
     }
+
 
     @Test
     public void deletedNotFound() {
@@ -45,8 +48,8 @@ public class UserServiceTest {
 
     @Test
     public void get() {
-        User user = service.get(USER_ID);
-        USER_MATCHER.assertMatch(user, USER_1);
+        User user = service.get(ADMIN_ID);
+        USER_MATCHER.assertMatch(user, ADMIN);
     }
 
     @Test
@@ -61,6 +64,16 @@ public class UserServiceTest {
     }
 
     @Test
+   public void duplicateEmailCreate() {
+        assertThrows(DataAccessException.class, () -> service.create(new User("name", "admin@email.com", "pass", Role.ADMIN)));
+
+    }
+    @Test
+    public void duplicateNameCreate(){
+        assertThrows(DataAccessException.class, () -> service.create(new User("userName1", "mail@email.com", "pass", Role.USER)));
+    }
+
+    @Test
     public void update() {
         User updated = getUpdated();
         service.update(updated);
@@ -70,8 +83,9 @@ public class UserServiceTest {
     @Test
     public void getAll(){
         List<User> all = this.service.getAll();
-        USER_MATCHER.assertMatch(all, ADMIN, USER_2, USER_1);
+        USER_MATCHER.assertMatch(all, ADMIN, USER_1, USER_2);
     }
+
 
 
 }

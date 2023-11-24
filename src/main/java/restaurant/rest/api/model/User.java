@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
@@ -17,12 +20,12 @@ import java.util.Set;
 public class User extends AbstractBaseEntity {
 
     @Setter
-    @Column(name = "user_name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Setter
     @Email
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Setter
@@ -36,6 +39,12 @@ public class User extends AbstractBaseEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @Setter
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "uk_user_role")})
+    @Column(name = "role")
+    @BatchSize(size = 200)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn
     private Set<Role> roles;
 
     public void addRole(Role role){

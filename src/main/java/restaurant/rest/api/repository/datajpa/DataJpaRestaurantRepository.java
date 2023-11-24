@@ -64,4 +64,6 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
     public boolean updateVotesCount(int restaurantId) {
         return this.repository.updateVotesCount(restaurantId) != 0;
     }
+
+
 }

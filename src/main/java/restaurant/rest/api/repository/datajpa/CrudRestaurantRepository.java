@@ -17,25 +17,22 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE r.id=:id AND m.menus.actual is true")
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE r.id=:id AND m.actual is true")
     Restaurant getWithMenus(int id);
 
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.actual is true")
     List<Restaurant> getAllWithMenu();
 
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.votes m WHERE r.id=:id AND m.votes.actual is true")
-    Restaurant getWithVotes(@Param("id") int id);
-
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.date=:date")
     List<Restaurant> getAllWithMenuByDate(@Param("date") LocalDate date);
 
-    @Query("SELECT r FROM Restautant r, Vote v WHERE r.id=v.restaurant.id " +
+    @Query("SELECT r FROM Restaurant r, Vote v WHERE r.id=v.restaurant.id " +
             "AND v.voteDate=:date AND r.countVotes = (SELECT MAX(r.countVotes) FROM Restaurant r)")
     Restaurant getWithMaxVotesByDate(@Param("date") LocalDate date);
 
     @Modifying
     @Transactional
-    @Query("UPDATE r Restaurant SET r.countVotes = (SELECT v.countVotes FROM Vote v WHERE v.restaurant.id=:r_id AND v.actual is true)")
+    @Query("UPDATE Restaurant r SET r.countVotes = (SELECT COUNT(v) FROM Vote v WHERE v.restaurant.id=:r_id AND v.actual is true)")
     int updateVotesCount(@Param("r_id") int restaurantId);
 
 }

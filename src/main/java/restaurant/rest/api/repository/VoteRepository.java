@@ -13,4 +13,5 @@ public interface VoteRepository {
     List<Vote> getAllByRestaurantId(int restaurantId);
     Vote getByLocalDate(LocalDate localDate, int userId);
     boolean updateAll(boolean actual, int restaurantId);
+
 }

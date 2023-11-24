@@ -1,4 +1,4 @@
-package matcher;
+package restaurant.rest.api.matcher;
 
 import java.util.List;
 

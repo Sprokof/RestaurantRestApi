@@ -51,11 +51,13 @@ public class RestaurantService {
     public Restaurant getWithMaxVotesByDate(LocalDate date){
         return repository.getWithMaxVotesByDate(date);
     }
-    public boolean updateVotesCount(int restaurantId){
-        return this.repository.updateVotesCount(restaurantId);
+    public void updateVotesCount(int restaurantId){
+         this.repository.updateVotesCount(restaurantId);
     }
 
     public Restaurant getWithMenus(int id){
         return checkNotFoundWithId(this.repository.getWithMenus(id), id);
     }
+
+
 }
