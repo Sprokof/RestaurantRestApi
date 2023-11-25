@@ -7,6 +7,7 @@ import restaurant.rest.api.model.Menu;
 import restaurant.rest.api.model.Restaurant;
 import restaurant.rest.api.repository.MenuRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -15,7 +16,7 @@ public class DataJpaMenuRepository implements MenuRepository {
 
     private final CrudRestaurantRepository restaurantRepository;
 
-    public DataJpaMenuRepository(CrudMenuRepository menuRepository, CrudRestaurantRepository restaurantRepository){
+    public DataJpaMenuRepository(CrudMenuRepository menuRepository, CrudRestaurantRepository restaurantRepository) {
         this.menuRepository = menuRepository;
         this.restaurantRepository = restaurantRepository;
     }
@@ -25,7 +26,7 @@ public class DataJpaMenuRepository implements MenuRepository {
     public Menu save(Menu menu, int restaurantId) {
         Restaurant ref = restaurantRepository.getReferenceById(restaurantId);
         menu.setRestaurant(ref);
-        if(menu.isNew()){
+        if (menu.isNew()) {
             return menuRepository.save(menu);
         }
         return get(menu.id(), restaurantId) != null ? menuRepository.save(menu) : null;
@@ -50,5 +51,11 @@ public class DataJpaMenuRepository implements MenuRepository {
     public boolean updatePrevision(boolean actual, int restaurantId) {
         return this.menuRepository.updatePrevision(actual, restaurantId) != 0;
     }
+
+    @Override
+    public Menu getActualMenu(int restaurantId) {
+        return this.menuRepository.getActualMenu(restaurantId);
+    }
+
 }
 

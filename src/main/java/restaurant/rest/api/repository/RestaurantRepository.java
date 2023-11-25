@@ -10,9 +10,9 @@ public interface RestaurantRepository {
     boolean delete(int id);
     Restaurant get(int id);
     Restaurant getWithMenus(int id);
+    List<Restaurant> getAllByName(String name);
     List<Restaurant> getAll();
     List<Restaurant> getAllWithMenu();
     List<Restaurant> getAllWithMenuByDate(LocalDate date);
-    Restaurant getWithMaxVotesByDate(LocalDate date);
     boolean updateVotesCount(int restaurantId);
 }

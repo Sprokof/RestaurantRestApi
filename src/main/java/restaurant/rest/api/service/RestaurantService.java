@@ -2,6 +2,7 @@ package restaurant.rest.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import restaurant.rest.api.model.Restaurant;
@@ -24,7 +25,7 @@ public class RestaurantService {
         return repository.save(restaurant);
     }
 
-    @CacheEvict(value = "users", allEntries = true)
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void update(Restaurant restaurant){
         Assert.notNull(restaurant, "restaurant must not be null");
         checkNotFoundWithId(repository.save(restaurant), restaurant.id());
@@ -33,31 +34,28 @@ public class RestaurantService {
     public Restaurant get(int id){
         return checkNotFoundWithId(repository.get(id), id);
     }
-
     public void delete(int id){
         checkNotFoundWithId(repository.delete(id), id);
     }
-
+    @Cacheable("restaurants")
     public List<Restaurant> getAll(){
         return this.repository.getAll();
     }
-
     public List<Restaurant> getAllWithMenu(){
         return repository.getAllWithMenu();
     }
     public List<Restaurant> getAllWithMenuByDate(LocalDate date){
         return this.repository.getAllWithMenuByDate(date);
     }
-    public Restaurant getWithMaxVotesByDate(LocalDate date){
-        return repository.getWithMaxVotesByDate(date);
-    }
     public void updateVotesCount(int restaurantId){
          this.repository.updateVotesCount(restaurantId);
     }
-
     public Restaurant getWithMenus(int id){
         return checkNotFoundWithId(this.repository.getWithMenus(id), id);
     }
 
-
+    @Cacheable("restaurants")
+    public List<Restaurant> getAllByName(String name){
+        return this.repository.getAllByName(name);
+    }
 }

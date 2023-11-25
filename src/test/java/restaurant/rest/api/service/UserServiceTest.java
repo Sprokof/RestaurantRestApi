@@ -42,7 +42,7 @@ public class UserServiceTest {
 
 
     @Test
-    public void deletedNotFound() {
+    public void deleteNotFound() {
         assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
     }
 

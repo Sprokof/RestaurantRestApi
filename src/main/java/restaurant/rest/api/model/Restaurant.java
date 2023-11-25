@@ -7,6 +7,8 @@ import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -42,8 +44,15 @@ public class Restaurant extends AbstractBaseEntity {
 
     }
 
-    @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST}, mappedBy = "restaurant", fetch = FetchType.LAZY)
+    public Restaurant(Restaurant restaurant){
+        this(restaurant.name, restaurant.description);
+        this.setCountVotes(restaurant.countVotes);
+        this.setMenus(restaurant.menus);
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.PERSIST}, mappedBy = "restaurant")
     @Setter
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Menu> menus;
 
     public void addMenu(Menu menu){

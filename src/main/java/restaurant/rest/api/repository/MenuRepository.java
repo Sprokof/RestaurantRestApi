@@ -10,5 +10,7 @@ public interface MenuRepository {
     boolean delete(int id, int restaurantId);
     Menu get(int id, int restaurantId);
     List<Menu> getAll(int restaurantId);
+    Menu getActualMenu(int restaurantId);
     boolean updatePrevision(boolean actual, int restaurantId);
+
 }

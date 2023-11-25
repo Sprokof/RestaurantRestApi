@@ -56,14 +56,12 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
     }
 
     @Override
-    public Restaurant getWithMaxVotesByDate(LocalDate date) {
-        return this.repository.getWithMaxVotesByDate(date);
-    }
-
-    @Override
     public boolean updateVotesCount(int restaurantId) {
         return this.repository.updateVotesCount(restaurantId) != 0;
     }
 
-
+    @Override
+    public List<Restaurant> getAllByName(String name) {
+        return this.repository.getAllByName(name);
+    }
 }

@@ -41,4 +41,8 @@ public class MenuService {
     public List<Menu> getAll(int restaurantId){
         return this.repository.getAll(restaurantId);
     }
+
+    public Menu getActualMenu(int restaurantId){
+        return this.repository.getActualMenu(restaurantId);
+    }
 }

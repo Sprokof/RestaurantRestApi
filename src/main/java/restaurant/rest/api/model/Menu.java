@@ -3,6 +3,8 @@ package restaurant.rest.api.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -31,12 +33,14 @@ public class Menu extends AbstractBaseEntity {
         this.actual = true;
     }
 
-    @OneToMany(mappedBy = "menu", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "menu", cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @BatchSize(size = 5)
     @Setter
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<MenuItem> menuItems;
 
     @ManyToOne()
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     public void addItem(MenuItem menuItem){

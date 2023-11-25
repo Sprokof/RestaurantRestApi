@@ -65,7 +65,7 @@ public class PopulateDatabase implements CommandLineRunner  {
         voteService.create(new Vote(), 1, 2);
         voteService.create(new Vote(), 2, 1);
         this.restaurantService.updateVotesCount(1);
-        this.restaurantService.updateVotesCount(2);
+        //this.restaurantService.updateVotesCount(2);
     }
 
     @Override
