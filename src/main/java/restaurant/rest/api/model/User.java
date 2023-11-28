@@ -57,12 +57,12 @@ public class User extends AbstractBaseEntity {
         this.registered = LocalDateTime.now();
     }
 
-    public User(String name, String email, String password, Role role){
+    public User(String name, String email, String password, Set<Role> roles){
         this.name = name;
         this.email = email;
         this.password = password;
         this.registered = LocalDateTime.now();
-        addRole(role);
+        this.roles = roles;
     }
 
 

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
+@Transactional
 public class DataJpaRestaurantRepository implements RestaurantRepository  {
 
     private final CrudRestaurantRepository repository;
@@ -36,8 +37,8 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
     }
 
     @Override
-    public Restaurant getWithMenus(int id) {
-        return this.repository.getWithMenus(id);
+    public Restaurant getWithMenu(int id) {
+        return this.repository.getWithMenu(id);
     }
 
     @Override
@@ -63,5 +64,10 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
     @Override
     public List<Restaurant> getAllByName(String name) {
         return this.repository.getAllByName(name);
+    }
+
+    @Override
+    public List<Restaurant> getAllWithMenuByName(String name) {
+        return this.repository.getAllWithMenuByName(name);
     }
 }

@@ -51,7 +51,7 @@ public class RestaurantService {
          this.repository.updateVotesCount(restaurantId);
     }
     public Restaurant getWithMenus(int id){
-        return checkNotFoundWithId(this.repository.getWithMenus(id), id);
+        return checkNotFoundWithId(this.repository.getWithMenu(id), id);
     }
 
     @Cacheable("restaurants")

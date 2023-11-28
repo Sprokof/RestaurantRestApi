@@ -41,12 +41,21 @@ public class VoteService {
                         ", restaurantId" + restaurantId);
     }
 
-    public List<Vote> getAllByUserId(int userId){
-        return this.repository.getAllByUserId(userId);
+    public Vote getActualByUserId(int userId) {
+        return this.repository.getActualByUserId(userId);
     }
 
-    public List<Vote> getAllByRestaurantId(int restaurantId){
-        return this.repository.getAllByRestaurantId(restaurantId);
+
+    public List<Vote> getAllWithRestaurantByUserId(int userId) {
+        return this.repository.getAllWithRestaurantByUserId(userId);
+    }
+
+    public List<Vote> getAllWithUserByRestaurantId(int restaurantId) {
+        return this.repository.getAllWithUserByRestaurantId(restaurantId);
+    }
+
+    public List<Vote> getAllActualWithUserByRestaurantId(int restaurantId) {
+        return this.repository.getAllActualWithUserByRestaurantId(restaurantId);
     }
 
     public Vote getByLocalDate(LocalDate localDate, int userId){

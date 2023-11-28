@@ -17,10 +17,12 @@ import java.time.LocalTime;
 public class Vote extends AbstractBaseEntity {
 
     @Column(name = "vote_date")
-    private final LocalDate voteDate;
+    @Setter
+    private LocalDate voteDate;
 
     @Column(name = "vote_time")
-    private final LocalTime voteTime;
+    @Setter
+    private LocalTime voteTime;
 
     @Setter
     @Column(name = "actual")
@@ -30,6 +32,13 @@ public class Vote extends AbstractBaseEntity {
         this.voteDate = LocalDate.now();
         this.voteTime = LocalTime.now();
         this.actual = true;
+    }
+
+    public Vote(Vote vote){
+        this.setVoteDate(vote.voteDate);
+        this.setVoteTime(vote.voteTime);
+        this.setActual(vote.actual);
+
     }
 
     @Setter
@@ -51,8 +60,6 @@ public class Vote extends AbstractBaseEntity {
                 "voteDate=" + voteDate +
                 ", voteTime=" + voteTime +
                 ", actual=" + actual +
-                ", userId=" + user.id() +
-                ", restaurantId=" + restaurant.id() +
                 '}';
     }
 

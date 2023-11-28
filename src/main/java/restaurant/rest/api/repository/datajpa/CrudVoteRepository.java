@@ -18,16 +18,29 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     int delete(@Param("id") int id, @Param("u_id") int userId, @Param("r_id") int restaurantId);
     @Query("SELECT v FROM Vote v WHERE v.id=:id AND v.user.id=:u_id AND v.restaurant.id=:r_id")
     Vote get(@Param("id") int id, @Param("u_id") int userId, @Param("r_id") int restaurantId);
+    @Query("SELECT v FROM Vote v JOIN FETCH v.user JOIN FETCH v.restuarant WHERE v.id=:id AND v.user.id=:u_id AND v.restaurant.id=:r_id")
+    Vote getWithUserAndRestaurant(int id, int userId, int restaurantId);
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:u_id and v.actual is true")
+    Vote getActualByUserId(@Param("u_id") int userId);
+
     @Query("SELECT v FROM Vote v WHERE v.user.id=:u_id")
     List<Vote> getAllByUserId(@Param("u_id") int userId);
-    @Query("SELECT v FROM Vote v WHERE v.actual is true AND v.restaurant.id=:r_id")
-    List<Vote> getAllByRestaurantId(@Param("r_id")int restaurantId);
+    @Query("SELECT v FROM Vote v JOIN FETCH v.user u WHERE u.id=:u_id")
+    List<Vote> getAllWithUserByUserId(int userId);
+    @Query("SELECT v FROM Vote v WHERE v.restaurant.id=:r_id")
+    List<Vote> getAllByRestaurantId(@Param("r_id") int restaurantId);
     @Query("SELECT v FROM Vote v WHERE v.voteDate=:date AND v.actual is true AND v.user.id=:u_id")
     Vote getByLocalDate(@Param("date") LocalDate localDate, @Param("u_id") int userId);
     @Modifying
     @Transactional
     @Query("UPDATE Vote v SET v.actual=:actual WHERE v.restaurant.id=:r_id")
     int updateAll(@Param("actual") boolean actual, @Param("r_id") int restaurantId);
+    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.user.id=:u_id")
+    List<Vote> getAllWithRestaurantByUserId(@Param("u_id") int userId);
+    @Query("SELECT v FROM Vote v JOIN FETCH v.user WHERE v.restaurant.id=:r_id")
+    List<Vote> getAllWithUserByRestaurantId(@Param("r_id") int restaurantId);
+    @Query("SELECT v FROM Vote v JOIN FETCH v.user WHERE v.actual is true AND v.restaurant.id=:r_id")
+    List<Vote> getAllActualWithUserByRestaurantId(@Param("r_id") int restaurantId);
 
 
 }

@@ -18,7 +18,7 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     int delete(@Param("id") int id);
 
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE r.id=:id AND m.actual is true")
-    Restaurant getWithMenus(int id);
+    Restaurant getWithMenu(int id);
 
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.actual is true ORDER BY r.countVotes DESC")
     List<Restaurant> getAllWithMenu();
@@ -33,5 +33,11 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
 
     @Query("SELECT r FROM Restaurant r WHERE r.name LIKE %:name% ORDER BY r.countVotes DESC")
     List<Restaurant> getAllByName(@Param("name") String name);
+
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.actual is true AND r.name LIKE %:name% ORDER BY r.countVotes DESC")
+    List<Restaurant> getAllWithMenuByName(@Param("name") String name);
+
+
+
 
 }

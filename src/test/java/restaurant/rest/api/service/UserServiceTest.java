@@ -10,8 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import restaurant.rest.api.model.Role;
 import restaurant.rest.api.model.User;
 import restaurant.rest.api.util.exception.NotFoundException;
-
-import javax.xml.crypto.Data;
 import java.util.List;
 
 import static restaurant.rest.api.data.UserTestData.*;

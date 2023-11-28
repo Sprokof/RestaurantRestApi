@@ -9,7 +9,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,28 +37,40 @@ public class Menu extends AbstractBaseEntity {
 
     @OneToMany(mappedBy = "menu", cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @BatchSize(size = 5)
-    @Setter
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<MenuItem> menuItems;
+    private List<MenuItem> menuItems;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     public void addItem(MenuItem menuItem){
-        if(this.menuItems == null) this.menuItems = new HashSet<>();
+        if(this.menuItems == null) this.menuItems = new ArrayList<>();
         this.menuItems.add(menuItem);
         menuItem.setMenu(this);
+    }
+
+    public Menu(List<MenuItem> menuItems){
+        this.menuItems = menuItems;
+        this.date = LocalDate.now();
+        this.time = LocalTime.now();
+        this.actual = true;
+    }
+
+    public Menu(Menu menu){
+        this.setDate(menu.date);
+        this.setTime(menu.time);
+        this.setActual(menu.actual);
+        this.setMenuItems(menu.menuItems);
     }
 
     @Override
     public String toString() {
         return "Menu{" +
-                "date=" + date +
-                ", time" + time +
+                "id=" + id +
+                ", date=" + date +
+                ", time=" + time +
                 ", actual=" + actual +
-                ", menuItems" + menuItems +
-                ", restaurantId=" + restaurant.id()+
                 '}';
     }
 }

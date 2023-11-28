@@ -9,6 +9,7 @@ import restaurant.rest.api.service.UserService;
 import restaurant.rest.api.service.VoteService;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class PopulateDatabase implements CommandLineRunner  {
@@ -19,9 +20,11 @@ public class PopulateDatabase implements CommandLineRunner  {
     private static final Restaurant RESTAURANT_1 = new Restaurant("restaurant1", "restaurant1Description");
     private static final Restaurant RESTAURANT_2 = new Restaurant("restaurant2", "restaurant2Description");
     private static final Restaurant RESTAURANT_3 = new Restaurant("restaurant3", "restaurant3Description");
-    private static final Menu menu1 = new Menu();
-    private static final Menu menu2 = new Menu();
-    private static final Menu menu3 = new Menu();
+    private static final Menu menu1 = new Menu(List.of(new MenuItem("dish1M1", 100), new MenuItem("dish2M1", 110)));
+    private static final Menu menu2 = new Menu(List.of(new MenuItem("dish1M2", 120), new MenuItem("dish2M2", 105)));
+    private static final Menu menu3 = new Menu(List.of(new MenuItem("dish1M3", 130), new MenuItem("dish2M3", 150)));
+    private static final Vote VOTE_1 = new Vote();
+    private static final Vote VOTE_2 = new Vote();
 
 
 
@@ -29,10 +32,6 @@ public class PopulateDatabase implements CommandLineRunner  {
         USER_1.addRole(Role.USER);
         USER_2.addRole(Role.USER);
         ADMIN.addRole(Role.ADMIN);
-
-        addMenuItems(menu1, List.of(new MenuItem("dish1M1", 100), new MenuItem("dish2M1", 110)));
-        addMenuItems(menu2, List.of(new MenuItem("dish1M2", 120), new MenuItem("dish2M2", 105)));
-        addMenuItems(menu3, List.of(new MenuItem("dish1M3", 130), new MenuItem("dish2M3", 150)));
 
         RESTAURANT_1.addMenu(menu1);
         RESTAURANT_2.addMenu(menu2);
@@ -62,10 +61,10 @@ public class PopulateDatabase implements CommandLineRunner  {
     }
 
     public void insertVotes(){
-        voteService.create(new Vote(), 1, 2);
-        voteService.create(new Vote(), 2, 1);
+        voteService.create(VOTE_1, 1, 1);
+        voteService.create(VOTE_2, 2, 2);
         this.restaurantService.updateVotesCount(1);
-        //this.restaurantService.updateVotesCount(2);
+        this.restaurantService.updateVotesCount(2);
     }
 
     @Override
@@ -75,7 +74,4 @@ public class PopulateDatabase implements CommandLineRunner  {
         insertVotes();
     }
 
-    private static void addMenuItems(Menu menu, List<MenuItem> items){
-        items.forEach(menu::addItem);
-    }
 }

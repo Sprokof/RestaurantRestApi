@@ -25,7 +25,7 @@ public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
     @Transactional
     @Query("UPDATE Menu m SET m.actual=:actual WHERE m.actual is true AND m.restaurant.id=:r_id")
     int updatePrevision(@Param("actual") boolean actual, @Param("r_id") int restaurantId);
-    @Query("SELECT m FROM Menu m WHERE m.restauarant.id=:r_id AND m.actual is true")
+    @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:r_id AND m.actual is true")
     Menu getActualMenu(@Param("r_id") int restaurantId);
 
 

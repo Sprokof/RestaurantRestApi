@@ -10,7 +10,6 @@ import restaurant.rest.api.model.Restaurant;
 import restaurant.rest.api.util.exception.NotFoundException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.Assert.assertThrows;

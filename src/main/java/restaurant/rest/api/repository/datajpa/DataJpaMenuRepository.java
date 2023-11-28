@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
+@Transactional
 public class DataJpaMenuRepository implements MenuRepository {
     private final CrudMenuRepository menuRepository;
 

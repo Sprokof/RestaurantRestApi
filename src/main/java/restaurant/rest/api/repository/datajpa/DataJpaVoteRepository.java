@@ -54,15 +54,29 @@ public class DataJpaVoteRepository implements VoteRepository  {
     }
 
     @Override
-    public List<Vote> getAllByUserId(int userId) {
-        return this.voteRepository.getAllByUserId(userId);
+    public Vote getWithUserAndRestaurant(int id, int userId, int restaurantId) {
+        return this.voteRepository.getWithUserAndRestaurant(id, userId, restaurantId);
     }
 
     @Override
-    public List<Vote> getAllByRestaurantId(int restaurantId) {
-        return this.voteRepository.getAllByRestaurantId(restaurantId);
+    public Vote getActualByUserId(int userId) {
+        return this.voteRepository.getActualByUserId(userId);
     }
 
+    @Override
+    public List<Vote> getAllWithRestaurantByUserId(int userId) {
+        return this.voteRepository.getAllWithRestaurantByUserId(userId);
+    }
+
+    @Override
+    public List<Vote> getAllWithUserByRestaurantId(int restaurantId) {
+        return this.voteRepository.getAllWithUserByRestaurantId(restaurantId);
+    }
+
+    @Override
+    public List<Vote> getAllActualWithUserByRestaurantId(int restaurantId) {
+        return this.voteRepository.getAllActualWithUserByRestaurantId(restaurantId);
+    }
 
     @Override
     public Vote getByLocalDate(LocalDate localDate, int userId) {
