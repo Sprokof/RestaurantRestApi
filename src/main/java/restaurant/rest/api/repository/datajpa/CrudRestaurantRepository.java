@@ -16,27 +16,14 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Modifying
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
-
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE r.id=:id AND m.actual is true")
-    Restaurant getWithMenu(int id);
-
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.actual is true ORDER BY r.countVotes DESC")
-    List<Restaurant> getAllWithMenu();
-
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.actual is true AND m.date=:date ORDER BY r.countVotes DESC")
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE r.id=:id AND m.date = NULLIF(:date, null)")
+    Restaurant getWithMenuByDate(@Param("date") LocalDate date, @Param("id") int id);
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.date=:date ORDER BY r.countVotes DESC")
     List<Restaurant> getAllWithMenuByDate(@Param("date") LocalDate date);
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE Restaurant r SET r.countVotes = (SELECT COUNT(v) FROM Vote v WHERE v.restaurant.id=:r_id AND v.actual is true) WHERE r.id=:r_id")
-    int updateVotesCount(@Param("r_id") int restaurantId);
-
     @Query("SELECT r FROM Restaurant r WHERE r.name LIKE %:name% ORDER BY r.countVotes DESC")
     List<Restaurant> getAllByName(@Param("name") String name);
-
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.actual is true AND r.name LIKE %:name% ORDER BY r.countVotes DESC")
-    List<Restaurant> getAllWithMenuByName(@Param("name") String name);
-
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.date = NULLIF(:date, null) AND r.name LIKE %:name% ORDER BY r.countVotes DESC")
+    List<Restaurant> getAllWithMenuByNameAndDate(@Param("date") LocalDate date, @Param("name") String name);
 
 
 

@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import restaurant.rest.api.model.Role;
 import restaurant.rest.api.model.User;
 import restaurant.rest.api.util.exception.NotFoundException;
+
+import java.util.Collections;
 import java.util.List;
 
 import static restaurant.rest.api.data.UserTestData.*;
@@ -63,12 +65,12 @@ public class UserServiceTest {
 
     @Test
    public void duplicateEmailCreate() {
-        assertThrows(DataAccessException.class, () -> service.create(new User("name", "admin@email.com", "pass", Role.ADMIN)));
+        assertThrows(DataAccessException.class, () -> service.create(new User("name", "admin@email.com", "pass", Collections.singleton(Role.ADMIN))));
 
     }
     @Test
     public void duplicateNameCreate(){
-        assertThrows(DataAccessException.class, () -> service.create(new User("userName1", "mail@email.com", "pass", Role.USER)));
+        assertThrows(DataAccessException.class, () -> service.create(new User("userName1", "mail@email.com", "pass", Collections.singleton(Role.USER))));
     }
 
     @Test

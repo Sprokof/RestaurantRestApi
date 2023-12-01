@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
 import restaurant.rest.api.model.Menu;
 import restaurant.rest.api.repository.MenuRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static restaurant.rest.api.util.ValidationUtil.*;
@@ -19,7 +20,6 @@ public class MenuService {
 
     public Menu create(Menu menu, int restaurantId){
         Assert.notNull(menu, "menu must not be null");
-        this.repository.updatePrevision(false, restaurantId);
         return this.repository.save(menu, restaurantId);
     }
 
@@ -43,6 +43,6 @@ public class MenuService {
     }
 
     public Menu getActualMenu(int restaurantId){
-        return this.repository.getActualMenu(restaurantId);
+        return this.repository.getByRestaurantIdAndDate(LocalDate.now(), restaurantId);
     }
 }

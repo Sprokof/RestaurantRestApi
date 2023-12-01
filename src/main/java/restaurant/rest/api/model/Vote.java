@@ -24,20 +24,14 @@ public class Vote extends AbstractBaseEntity {
     @Setter
     private LocalTime voteTime;
 
-    @Setter
-    @Column(name = "actual")
-    private boolean actual;
-
     public Vote(){
         this.voteDate = LocalDate.now();
         this.voteTime = LocalTime.now();
-        this.actual = true;
     }
 
     public Vote(Vote vote){
         this.setVoteDate(vote.voteDate);
         this.setVoteTime(vote.voteTime);
-        this.setActual(vote.actual);
 
     }
 
@@ -59,7 +53,6 @@ public class Vote extends AbstractBaseEntity {
         return "Vote{" +
                 "voteDate=" + voteDate +
                 ", voteTime=" + voteTime +
-                ", actual=" + actual +
                 '}';
     }
 

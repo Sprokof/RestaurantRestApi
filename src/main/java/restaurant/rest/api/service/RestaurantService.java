@@ -3,9 +3,11 @@ package restaurant.rest.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import restaurant.rest.api.model.Restaurant;
+import restaurant.rest.api.model.Vote;
 import restaurant.rest.api.repository.RestaurantRepository;
 
 import java.time.LocalDate;
@@ -47,9 +49,6 @@ public class RestaurantService {
     public List<Restaurant> getAllWithMenuByDate(LocalDate date){
         return this.repository.getAllWithMenuByDate(date);
     }
-    public void updateVotesCount(int restaurantId){
-         this.repository.updateVotesCount(restaurantId);
-    }
     public Restaurant getWithMenus(int id){
         return checkNotFoundWithId(this.repository.getWithMenu(id), id);
     }
@@ -58,4 +57,12 @@ public class RestaurantService {
     public List<Restaurant> getAllByName(String name){
         return this.repository.getAllByName(name);
     }
+
+    public List<Restaurant> getAllWithMenuByName(String name){
+        return this.repository.getAllWithMenuByName(name);
+    }
+
+
+
+
 }

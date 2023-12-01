@@ -26,13 +26,9 @@ public class Menu extends AbstractBaseEntity {
     @Column(name = "time")
     private LocalTime time;
 
-    @Column(name = "actual")
-    private boolean actual;
-
     public Menu() {
         this.date = LocalDate.now();
         this.time = LocalTime.now();
-        this.actual = true;
     }
 
     @OneToMany(mappedBy = "menu", cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
@@ -54,13 +50,11 @@ public class Menu extends AbstractBaseEntity {
         this.menuItems = menuItems;
         this.date = LocalDate.now();
         this.time = LocalTime.now();
-        this.actual = true;
     }
 
     public Menu(Menu menu){
         this.setDate(menu.date);
         this.setTime(menu.time);
-        this.setActual(menu.actual);
         this.setMenuItems(menu.menuItems);
     }
 
@@ -70,7 +64,6 @@ public class Menu extends AbstractBaseEntity {
                 "id=" + id +
                 ", date=" + date +
                 ", time=" + time +
-                ", actual=" + actual +
                 '}';
     }
 }

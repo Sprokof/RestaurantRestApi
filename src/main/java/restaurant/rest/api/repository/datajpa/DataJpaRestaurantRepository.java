@@ -37,18 +37,8 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
     }
 
     @Override
-    public Restaurant getWithMenu(int id) {
-        return this.repository.getWithMenu(id);
-    }
-
-    @Override
     public List<Restaurant> getAll() {
         return this.repository.findAll();
-    }
-
-    @Override
-    public List<Restaurant> getAllWithMenu() {
-        return this.repository.getAllWithMenu();
     }
 
     @Override
@@ -57,17 +47,27 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
     }
 
     @Override
-    public boolean updateVotesCount(int restaurantId) {
-        return this.repository.updateVotesCount(restaurantId) != 0;
-    }
-
-    @Override
     public List<Restaurant> getAllByName(String name) {
         return this.repository.getAllByName(name);
     }
 
     @Override
-    public List<Restaurant> getAllWithMenuByName(String name) {
-        return this.repository.getAllWithMenuByName(name);
+    public Restaurant getWithMenu(int id) {
+        return this.repository.getWithMenuByDate(LocalDate.now(), id);
+    }
+
+    @Override
+    public List<Restaurant> getAllWithMenuByNameAndDate(LocalDate date, String name) {
+        return this.repository.getAllWithMenuByNameAndDate(date, name);
+    }
+
+    @Override
+    public List<Restaurant> getAllWithMenu() {
+        return this.getAllWithMenuByDate(LocalDate.now());
+    }
+
+    @Override
+    public Restaurant getWithMenuByDate(LocalDate date, int id) {
+        return this.repository.getWithMenuByDate(date, id);
     }
 }

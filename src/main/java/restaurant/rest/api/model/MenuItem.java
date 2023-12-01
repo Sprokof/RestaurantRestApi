@@ -45,5 +45,4 @@ public class MenuItem extends AbstractBaseEntity {
                 '}';
     }
 
-
 }

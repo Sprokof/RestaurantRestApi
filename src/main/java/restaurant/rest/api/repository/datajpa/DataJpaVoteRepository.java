@@ -53,15 +53,6 @@ public class DataJpaVoteRepository implements VoteRepository  {
         return this.voteRepository.get(id, userId, restaurantId);
     }
 
-    @Override
-    public Vote getWithUserAndRestaurant(int id, int userId, int restaurantId) {
-        return this.voteRepository.getWithUserAndRestaurant(id, userId, restaurantId);
-    }
-
-    @Override
-    public Vote getActualByUserId(int userId) {
-        return this.voteRepository.getActualByUserId(userId);
-    }
 
     @Override
     public List<Vote> getAllWithRestaurantByUserId(int userId) {
@@ -74,19 +65,23 @@ public class DataJpaVoteRepository implements VoteRepository  {
     }
 
     @Override
-    public List<Vote> getAllActualWithUserByRestaurantId(int restaurantId) {
-        return this.voteRepository.getAllActualWithUserByRestaurantId(restaurantId);
+    public Vote getByUserIdAndDate(LocalDate localDate, int userId) {
+        return this.voteRepository.getByUserIdAndDate(localDate, userId);
+    }
+
+
+    @Override
+    public Vote getWithRestaurantByUserIdAndDate(LocalDate date, int userId) {
+        return this.voteRepository.getWithRestaurantByUserIdAndDate(date, userId);
     }
 
     @Override
-    public Vote getByLocalDate(LocalDate localDate, int userId) {
-        return this.voteRepository.getByLocalDate(localDate, userId);
+    public List<Vote> getWithUserByRestaurantIdAndDate(LocalDate date, int restaurantId) {
+        return this.voteRepository.getWithUserByRestaurantIdByDate(date, restaurantId);
     }
 
     @Override
-    public boolean updateAll(boolean actual, int restaurantId) {
-        return this.voteRepository.updateAll(actual, restaurantId) != 0;
+    public int getVotesCount(LocalDate date, int restaurantId) {
+        return this.voteRepository.getVotesCount(date, restaurantId);
     }
-
-
 }

@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.util.List;
 @Transactional(readOnly = true)
 public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
-
     @Transactional
     @Modifying
     @Query("DELETE FROM Menu m WHERE m.id=:id AND m.restaurant.id=:r_id")
@@ -21,12 +20,8 @@ public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
     Menu get(@Param("id") int id, @Param("r_id") int restaurantId);
     @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:r_id")
     List<Menu> getAll(@Param("r_id") int restaurantId);
-    @Modifying
-    @Transactional
-    @Query("UPDATE Menu m SET m.actual=:actual WHERE m.actual is true AND m.restaurant.id=:r_id")
-    int updatePrevision(@Param("actual") boolean actual, @Param("r_id") int restaurantId);
-    @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:r_id AND m.actual is true")
-    Menu getActualMenu(@Param("r_id") int restaurantId);
+    @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:r_id AND m.date=:date")
+    Menu getMenuByRestaurantIdAndDate(@Param("date") LocalDate date, @Param("r_id") int restaurantId);
 
 
 }

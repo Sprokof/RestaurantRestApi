@@ -41,8 +41,8 @@ public class VoteService {
                         ", restaurantId" + restaurantId);
     }
 
-    public Vote getActualByUserId(int userId) {
-        return this.repository.getActualByUserId(userId);
+    public Vote getActualWithRestaurantByUserId(int userId) {
+        return this.repository.getWithRestaurantByUserIdAndDate(LocalDate.now(), userId);
     }
 
 
@@ -55,14 +55,19 @@ public class VoteService {
     }
 
     public List<Vote> getAllActualWithUserByRestaurantId(int restaurantId) {
-        return this.repository.getAllActualWithUserByRestaurantId(restaurantId);
+        return this.repository.getWithUserByRestaurantIdAndDate(LocalDate.now(), restaurantId);
     }
 
-    public Vote getByLocalDate(LocalDate localDate, int userId){
-        return this.repository.getByLocalDate(localDate, userId);
+    public Vote getByUserIdAndDate(LocalDate localDate, int userId){
+        return this.repository.getByUserIdAndDate(localDate, userId);
     }
 
-    public void updateAll(boolean actual, int restaurantId){
-        this.repository.updateAll(actual, restaurantId);
+    public int getVotesCount(LocalDate date, int restaurantId){
+        return this.repository.getVotesCount(date, restaurantId);
     }
+
+    public int getActualVotesCount(int restaurantId){
+        return this.repository.getVotesCount(LocalDate.now(), restaurantId);
+    }
+
 }

@@ -50,7 +50,7 @@ public class Restaurant extends AbstractBaseEntity {
         this.setMenus(restaurant.menus);
     }
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.PERSIST}, mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "restaurant")
     @Setter
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Menu> menus;
