@@ -42,7 +42,7 @@ public class RestaurantServiceTest {
     @Test
     public void getAllByName(){
         List<Restaurant> all = service.getAllByName("restaurant");
-        RESTAURANT_MATCHER.assertMatch(all, RESTAURANT_1, RESTAURANT_2, RESTAURANT_3);
+        RESTAURANT_MATCHER.assertMatch(all, RESTAURANT_3, RESTAURANT_2, RESTAURANT_1);
     }
 
     @Test
@@ -53,14 +53,23 @@ public class RestaurantServiceTest {
     }
 
     @Test
+    public void getWithMenu (){
+        Restaurant found = this.service.getWithMenu(RESTAURANT_ID + 1);
+        RESTAURANT_MATCHER.assertMatch(found, RESTAURANT_2);
+    }
+
+    @Test
+    public void getAllWithMenuByName(){
+        List<Restaurant> all = this.service.getAllWithMenuByName("restaurant");
+        RESTAURANT_MATCHER.assertMatch(all, RESTAURANT_1, RESTAURANT_2, RESTAURANT_3);
+    }
+
+    @Test
     public void update(){
         Restaurant updated = getUpdated();
         service.update(updated);
         RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_ID), updated);
     }
-
-
-
     @Test
     public void deleteNotFound() {
         assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));

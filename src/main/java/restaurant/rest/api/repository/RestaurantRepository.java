@@ -10,11 +10,9 @@ public interface RestaurantRepository {
     Restaurant save(Restaurant restaurant);
     boolean delete(int id);
     Restaurant get(int id);
-    Restaurant getWithMenu(int id);
     List<Restaurant> getAllByName(String name);
     List<Restaurant> getAllWithMenuByNameAndDate(LocalDate date, String name);
     List<Restaurant> getAll();
-    List<Restaurant> getAllWithMenu();
     List<Restaurant> getAllWithMenuByDate(LocalDate date);
     Restaurant getWithMenuByDate(LocalDate date, int id);
 }

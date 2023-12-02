@@ -7,15 +7,18 @@ import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-@Getter
 @Entity
 @Table(name = "restaurant")
+@Getter
 public class Restaurant extends AbstractBaseEntity {
 
     @Column(name = "description", nullable = false)
@@ -50,13 +53,13 @@ public class Restaurant extends AbstractBaseEntity {
         this.setMenus(restaurant.menus);
     }
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.PERSIST}, mappedBy = "restaurant")
     @Setter
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<Menu> menus;
+    private List<Menu> menus;
 
     public void addMenu(Menu menu){
-        if(this.menus == null) this.menus = new HashSet<>();
+        if(this.menus == null) this.menus = new ArrayList<>();
         this.menus.add(menu);
         menu.setRestaurant(this);
     }

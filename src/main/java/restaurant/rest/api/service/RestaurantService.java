@@ -12,6 +12,7 @@ import restaurant.rest.api.repository.RestaurantRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static restaurant.rest.api.util.ValidationUtil.*;
 
@@ -43,14 +44,11 @@ public class RestaurantService {
     public List<Restaurant> getAll(){
         return this.repository.getAll();
     }
-    public List<Restaurant> getAllWithMenu(){
-        return repository.getAllWithMenu();
-    }
     public List<Restaurant> getAllWithMenuByDate(LocalDate date){
         return this.repository.getAllWithMenuByDate(date);
     }
-    public Restaurant getWithMenus(int id){
-        return checkNotFoundWithId(this.repository.getWithMenu(id), id);
+    public Restaurant getWithMenu(int id){
+        return checkNotFoundWithId(this.repository.getWithMenuByDate(LocalDate.now(), id), id);
     }
 
     @Cacheable("restaurants")
@@ -59,9 +57,8 @@ public class RestaurantService {
     }
 
     public List<Restaurant> getAllWithMenuByName(String name){
-        return this.repository.getAllWithMenuByName(name);
+        return this.repository.getAllWithMenuByNameAndDate(LocalDate.now(), name);
     }
-
 
 
 

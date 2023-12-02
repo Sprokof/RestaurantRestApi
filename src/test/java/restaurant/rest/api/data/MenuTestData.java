@@ -14,9 +14,9 @@ public class MenuTestData {
     public static final int MENU_ID = 1;
     public static final int CREATED_MENU_ID = 4;
     public static final int NOT_FOUND = 0;
-    public static final Menu MENU_1 = new Menu(List.of(new MenuItem("dish1M1", 100), new MenuItem("dish2M1", 110)));
-    public static final Menu MENU_2 = new Menu(List.of(new MenuItem("dish1M2", 120), new MenuItem("dish2M2", 105)));
-    public static final Menu MENU_3 = new Menu(List.of(new MenuItem("dish1M3", 130), new MenuItem("dish2M3", 150)));
+    public static final Menu MENU_1 = new Menu(new MenuItem("dish1M1", 100), new MenuItem("dish2M1", 110));
+    public static final Menu MENU_2 = new Menu(new MenuItem("dish1M2", 120), new MenuItem("dish2M2", 105));
+    public static final Menu MENU_3 = new Menu(new MenuItem("dish1M3", 130), new MenuItem("dish2M3", 150));
 
 
     static {
@@ -25,7 +25,7 @@ public class MenuTestData {
         MENU_3.setId(MENU_ID + 2);
     }
     public static Menu getNew(){
-        return new Menu(List.of(new MenuItem("newMenuDish1", 150), new MenuItem("newMenuDish2", 70)));
+        return new Menu(new MenuItem("newMenuDish1", 150), new MenuItem("newMenuDish2", 70));
     }
 
     public static Menu getUpdated() {

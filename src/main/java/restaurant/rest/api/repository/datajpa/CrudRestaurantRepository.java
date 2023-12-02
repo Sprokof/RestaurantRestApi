@@ -16,15 +16,18 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Modifying
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE r.id=:id AND m.date = NULLIF(:date, null)")
-    Restaurant getWithMenuByDate(@Param("date") LocalDate date, @Param("id") int id);
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.date=:date ORDER BY r.countVotes DESC")
-    List<Restaurant> getAllWithMenuByDate(@Param("date") LocalDate date);
-    @Query("SELECT r FROM Restaurant r WHERE r.name LIKE %:name% ORDER BY r.countVotes DESC")
-    List<Restaurant> getAllByName(@Param("name") String name);
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.date = NULLIF(:date, null) AND r.name LIKE %:name% ORDER BY r.countVotes DESC")
-    List<Restaurant> getAllWithMenuByNameAndDate(@Param("date") LocalDate date, @Param("name") String name);
 
+    @Query("SELECT r FROM Restaurant r LEFT JOIN FETCH r.menus m WHERE ((m is null OR m.date=:date) OR m.id = (SELECT max(id) FROM Menu m WHERE m.restaurant.id=:id)) AND r.id=:id")
+    Restaurant getWithMenuByDate(@Param("date") LocalDate date, @Param("id") int id);
+
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.date=:date ORDER BY r.name DESC")
+    List<Restaurant> getAllWithMenuByDate(@Param("date") LocalDate date);
+
+    @Query("SELECT r FROM Restaurant r WHERE r.name LIKE %:name% ORDER BY r.name DESC")
+    List<Restaurant> getAllByName(@Param("name") String name);
+
+    @Query("SELECT r FROM Restaurant r LEFT JOIN FETCH r.menus m WHERE ((m is null OR m.date=:date) OR m.id = (SELECT max(id) FROM Menu m WHERE m.restaurant.name LIKE %:name%))")
+    List<Restaurant> getAllWithMenuByNameAndDate(@Param("date") LocalDate date, @Param("name") String name);
 
 
 }

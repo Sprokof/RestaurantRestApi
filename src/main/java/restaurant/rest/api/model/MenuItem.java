@@ -1,14 +1,10 @@
 package restaurant.rest.api.model;
 
 
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "menu_item")
@@ -32,7 +28,7 @@ public class MenuItem extends AbstractBaseEntity {
         this.price = price;
     }
 
-    @ManyToOne()
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "menu_id")
     @Setter
     private Menu menu;

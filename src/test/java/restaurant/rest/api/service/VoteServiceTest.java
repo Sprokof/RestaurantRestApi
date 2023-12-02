@@ -64,13 +64,13 @@ public class VoteServiceTest {
 
     @Test
     public void getAllByRestaurantId(){
-        List<Vote> all = service.getAllByRestaurantId(RESTAURANT_ID);
+        List<Vote> all = service.getAllWithUserByRestaurantId(RESTAURANT_ID);
         VOTE_MATCHER.assertMatch(all, List.of(VOTE_1));
     }
 
     @Test
     public void getAllByUserId(){
-        List<Vote> all = service.getAllByUserId(USER_ID + 1);
+        List<Vote> all = service.getAllWithUserByRestaurantId(USER_ID + 1);
         VOTE_MATCHER.assertMatch(all, List.of(VOTE_2));
     }
 

@@ -5,12 +5,14 @@ import restaurant.rest.api.model.Restaurant;
 import restaurant.rest.api.model.Role;
 import restaurant.rest.api.model.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
 public class RestaurantTestData {
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingIgnoringFieldsComparator("menus", "countVotes");
 
+    public static final LocalDate MENU_CREATED_DATE = LocalDate.now();
     public static final int RESTAURANT_ID = 1;
     public static final int NOT_FOUND = 0;
     public static final int CREATED_RESTAURANT_ID = 4;

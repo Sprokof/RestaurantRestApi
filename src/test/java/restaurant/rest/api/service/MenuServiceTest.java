@@ -62,7 +62,6 @@ public class MenuServiceTest {
         assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND, RESTAURANT_ID));
 
     }
-
     @Test
     public void getActualMenu(){
         Menu actual = service.getActualMenu(RESTAURANT_ID  + 1);

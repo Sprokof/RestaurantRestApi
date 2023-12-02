@@ -49,9 +49,8 @@ public class DataJpaMenuRepository implements MenuRepository {
     }
 
     @Override
-    public Menu getByRestaurantIdAndDate(LocalDate date, int restaurantId) {
-        return this.menuRepository.getMenuByRestaurantIdAndDate(date, restaurantId);
+    public Menu getMenuByDateAndRestaurantId(LocalDate date, int restaurantId) {
+        return this.menuRepository.getMenuByDateAAndRestaurantId(date, restaurantId);
     }
-
 }
 

@@ -2,11 +2,12 @@ package restaurant.rest.api.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "menu")
-@Getter
 @Setter
+@Getter
 public class Menu extends AbstractBaseEntity {
 
     @Column(name = "date")
@@ -31,14 +32,17 @@ public class Menu extends AbstractBaseEntity {
         this.time = LocalTime.now();
     }
 
-    @OneToMany(mappedBy = "menu", cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @BatchSize(size = 5)
+    @OneToMany(mappedBy = "menu", cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @Setter
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<MenuItem> menuItems;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "restaurant_id")
+    @Getter
     private Restaurant restaurant;
+
 
     public void addItem(MenuItem menuItem){
         if(this.menuItems == null) this.menuItems = new ArrayList<>();
@@ -46,8 +50,15 @@ public class Menu extends AbstractBaseEntity {
         menuItem.setMenu(this);
     }
 
-    public Menu(List<MenuItem> menuItems){
-        this.menuItems = menuItems;
+    public void addItems(List<MenuItem> items){
+        for(MenuItem item : items){
+            addItem(item);
+            item.setMenu(this);
+        }
+    }
+
+    public Menu(MenuItem ... menuItems){
+        addItems(List.of(menuItems));
         this.date = LocalDate.now();
         this.time = LocalTime.now();
     }
@@ -66,4 +77,6 @@ public class Menu extends AbstractBaseEntity {
                 ", time=" + time +
                 '}';
     }
+
+
 }

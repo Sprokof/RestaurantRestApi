@@ -48,7 +48,9 @@ public class User extends AbstractBaseEntity {
     private Set<Role> roles;
 
     public void addRole(Role role){
-        if(this.roles == null) this.roles = new HashSet<>();
+        if(this.roles == null) {
+            this.roles = new HashSet<>();
+        }
         this.roles.add(role);
     }
 

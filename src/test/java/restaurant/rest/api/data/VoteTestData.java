@@ -29,7 +29,6 @@ public class VoteTestData {
         updated.setId(VOTE_2.id());
         updated.setVoteDate(LocalDate.now());
         updated.setVoteTime(LocalTime.now());
-        updated.setActual(true);
         return updated;
     }
 
