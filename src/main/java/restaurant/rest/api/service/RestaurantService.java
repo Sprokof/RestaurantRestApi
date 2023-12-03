@@ -56,9 +56,6 @@ public class RestaurantService {
         return this.repository.getAllByName(name);
     }
 
-    public List<Restaurant> getAllWithMenuByName(String name){
-        return this.repository.getAllWithMenuByNameAndDate(LocalDate.now(), name);
-    }
 
 
 

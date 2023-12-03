@@ -19,6 +19,9 @@ public class MenuItem extends AbstractBaseEntity {
     @Setter
     private double price;
 
+    @Setter
+    @Column(name = "menu_id")
+    private Integer menuId;
 
     public MenuItem(){
     }
@@ -28,10 +31,6 @@ public class MenuItem extends AbstractBaseEntity {
         this.price = price;
     }
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "menu_id")
-    @Setter
-    private Menu menu;
 
     @Override
     public String toString() {

@@ -9,24 +9,21 @@ import restaurant.rest.api.repository.MenuRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
 public class DataJpaMenuRepository implements MenuRepository {
     private final CrudMenuRepository menuRepository;
 
-    private final CrudRestaurantRepository restaurantRepository;
-
     public DataJpaMenuRepository(CrudMenuRepository menuRepository, CrudRestaurantRepository restaurantRepository) {
         this.menuRepository = menuRepository;
-        this.restaurantRepository = restaurantRepository;
     }
 
     @Override
     @Transactional
     public Menu save(Menu menu, int restaurantId) {
-        Restaurant ref = restaurantRepository.getReferenceById(restaurantId);
-        menu.setRestaurant(ref);
+        menu.setRestaurantId(restaurantId);
         if (menu.isNew()) {
             return menuRepository.save(menu);
         }

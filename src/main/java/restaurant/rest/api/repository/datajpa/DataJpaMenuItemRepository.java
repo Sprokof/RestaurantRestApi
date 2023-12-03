@@ -12,18 +12,14 @@ import java.util.Set;
 @Transactional(readOnly = true)
 public class DataJpaMenuItemRepository implements MenuItemRepository {
     private final CrudMenuItemRepository itemRepository;
-    private final CrudMenuRepository menuRepository;
-
-    public DataJpaMenuItemRepository(CrudMenuItemRepository itemRepository, CrudMenuRepository menuRepository){
+    public DataJpaMenuItemRepository(CrudMenuItemRepository itemRepository){
         this.itemRepository = itemRepository;
-        this.menuRepository = menuRepository;
     }
 
     @Override
     @Transactional
     public MenuItem save(MenuItem item, int menuId) {
-        Menu ref = menuRepository.getReferenceById(menuId);
-        item.setMenu(ref);
+        item.setMenuId(menuId);
         if (item.isNew()) {
             return itemRepository.save(item);
         }

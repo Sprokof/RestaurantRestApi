@@ -11,6 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -46,6 +47,7 @@ public class User extends AbstractBaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn
     private Set<Role> roles;
+
 
     public void addRole(Role role){
         if(this.roles == null) {

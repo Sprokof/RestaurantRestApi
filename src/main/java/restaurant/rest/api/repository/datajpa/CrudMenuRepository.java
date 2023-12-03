@@ -16,15 +16,15 @@ import java.util.List;
 public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
     @Transactional
     @Modifying
-    @Query("DELETE FROM Menu m WHERE m.id=:id AND m.restaurant.id=:r_id")
+    @Query("DELETE FROM Menu m WHERE m.id=:id AND m.restaurantId=:r_id")
     int delete(@Param("id") int id, @Param("r_id") int restaurantId);
-    @Query("SELECT m FROM Menu m WHERE m.id=:id AND m.restaurant.id=:r_id")
+    @Query("SELECT m FROM Menu m WHERE m.id=:id AND m.restaurantId=:r_id")
     @EntityGraph(attributePaths = "menuItems", type = EntityGraph.EntityGraphType.LOAD)
     Menu get(@Param("id") int id, @Param("r_id") int restaurantId);
-    @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:r_id")
+    @Query("SELECT m FROM Menu m WHERE m.restaurantId=:r_id")
     @EntityGraph(attributePaths = "menuItems", type = EntityGraph.EntityGraphType.LOAD)
     List<Menu> getAll(@Param("r_id") int restaurantId);
-    @Query("SELECT m FROM Menu m WHERE (m.date=:date OR m.id = (SELECT max(id) FROM Menu m WHERE m.restaurant.id=:r_id)) AND m.restaurant.id=:r_id")
+    @Query("SELECT m FROM Menu m WHERE (m.date=:date OR m.id = (SELECT max(id) FROM Menu m WHERE m.restaurantId=:r_id)) AND m.restaurantId=:r_id")
     @EntityGraph(attributePaths = "menuItems", type = EntityGraph.EntityGraphType.LOAD)
     Menu getMenuByDateAAndRestaurantId(@Param("date") LocalDate date, @Param("r_id") int restaurantId);
 

@@ -51,15 +51,6 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
         return this.repository.getAllByName(name);
     }
 
-    @Override
-    public List<Restaurant> getAllWithMenuByNameAndDate(LocalDate date, String name) {
-        return this.repository.getAllWithMenuByNameAndDate(date, name);
-    }
-
-    @Override
-    public List<Restaurant> getAllWithMenu() {
-        return this.getAllWithMenuByDate(LocalDate.now());
-    }
 
     @Override
     public Restaurant getWithMenuByDate(LocalDate date, int id) {

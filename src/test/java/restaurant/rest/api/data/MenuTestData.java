@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public class MenuTestData {
-    public static final MatcherFactory.Matcher<Menu> MENU_MATCHER = MatcherFactory.usingIgnoringFieldsComparator("restaurant", "time", "menuItems", "actual");
+    public static final MatcherFactory.Matcher<Menu> MENU_MATCHER = MatcherFactory.usingIgnoringFieldsComparator("restaurantId", "time", "menuItems", "actual");
     public static final int MENU_ID = 1;
     public static final int CREATED_MENU_ID = 4;
     public static final int NOT_FOUND = 0;

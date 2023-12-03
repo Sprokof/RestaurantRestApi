@@ -45,7 +45,6 @@ public class VoteService {
         return this.repository.getWithRestaurantByUserIdAndDate(LocalDate.now(), userId);
     }
 
-
     public List<Vote> getAllWithRestaurantByUserId(int userId) {
         return this.repository.getAllWithRestaurantByUserId(userId);
     }

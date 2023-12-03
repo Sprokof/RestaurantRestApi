@@ -58,11 +58,6 @@ public class RestaurantServiceTest {
         RESTAURANT_MATCHER.assertMatch(found, RESTAURANT_2);
     }
 
-    @Test
-    public void getAllWithMenuByName(){
-        List<Restaurant> all = this.service.getAllWithMenuByName("restaurant");
-        RESTAURANT_MATCHER.assertMatch(all, RESTAURANT_1, RESTAURANT_2, RESTAURANT_3);
-    }
 
     @Test
     public void update(){
