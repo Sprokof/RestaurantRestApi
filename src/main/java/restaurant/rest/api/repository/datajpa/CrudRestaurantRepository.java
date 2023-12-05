@@ -20,7 +20,7 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("SELECT r FROM Restaurant r LEFT JOIN FETCH r.menus m WHERE ((m is null OR m.date=:date) OR m.id = (SELECT max(id) FROM Menu m WHERE m.restaurantId=:id)) AND r.id=:id")
     Restaurant getWithMenuByDate(@Param("date") LocalDate date, @Param("id") int id);
 
-    @Query("SELECT r FROM Restaurant r WHERE m.date=:date ORDER BY r.name DESC")
+    @Query("SELECT r FROM Restaurant r, Menu m WHERE r.id=m.restaurantId AND m.date=:date ORDER BY r.name DESC")
     List<Restaurant> getAllWithMenuByDate(@Param("date") LocalDate date);
 
     @Query("SELECT r FROM Restaurant r WHERE r.name LIKE %:name% ORDER BY r.name DESC")

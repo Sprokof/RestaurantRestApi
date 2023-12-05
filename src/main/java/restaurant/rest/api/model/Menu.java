@@ -32,10 +32,9 @@ public class Menu extends AbstractBaseEntity {
         this.time = LocalTime.now();
     }
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Setter
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "menu_id")
     private List<MenuItem> menuItems;
 
