@@ -51,5 +51,8 @@ public class DataJpaUserRepository implements UserRepository {
         return repository.getByEmail(email);
     }
 
-
+    @Override
+    public User getByUsername(String username) {
+        return this.repository.getByUsername(username);
+    }
 }

@@ -17,7 +17,7 @@ public class PopulateDatabase implements CommandLineRunner  {
 
     private static final User USER_1 = new User("userName1", "user@email1.com", "userPassword1", Collections.singleton(Role.USER));
     private static final User USER_2 = new User("userName2", "user@email2.com", "userPassword2", Collections.singleton(Role.USER));
-    private static final User ADMIN = new User("adminName", "admin@email.com", "userPassword", Collections.singleton(Role.ADMIN));
+    private static final User ADMIN = new User("adminName", "admin@email.com", "userPassword", Set.of(Role.ADMIN, Role.USER));
     private static final Restaurant RESTAURANT_1 = new Restaurant("restaurant1", "restaurant1Description");
     private static final Restaurant RESTAURANT_2 = new Restaurant("restaurant2", "restaurant2Description");
     private static final Restaurant RESTAURANT_3 = new Restaurant("restaurant3", "restaurant3Description");

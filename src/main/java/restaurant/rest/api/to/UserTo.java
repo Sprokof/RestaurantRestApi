@@ -14,18 +14,17 @@ import java.util.Set;
 @Getter
 @Setter
 public class UserTo extends AbstractBaseTo {
-    private Integer id;
-    private String name;
+    private String username;
     private String email;
     private String password;
     private LocalDateTime registered;
     private Set<Role> roles;
 
     @Override
-    protected AbstractBaseEntity toEntity() {
+    public AbstractBaseEntity toEntity() {
         User user = new User();
-        user.setId(this.id);
-        user.setName(this.name);
+        user.setId(this.getId());
+        user.setUsername(this.username);
         user.setEmail(this.email);
         user.setRoles(this.roles);
         user.setRegistered(this.registered);
@@ -33,10 +32,10 @@ public class UserTo extends AbstractBaseTo {
     }
 
     @Override
-    protected AbstractBaseTo toDto(AbstractBaseEntity entity) {
+    public AbstractBaseTo toDto(AbstractBaseEntity entity) {
         User user = (User) entity;
         this.setId(user.getId());
-        this.setName(user.getName());
+        this.setUsername(user.getUsername());
         this.setEmail(user.getEmail());
         this.setPassword(user.getPassword());
         this.setRegistered(user.getRegistered());

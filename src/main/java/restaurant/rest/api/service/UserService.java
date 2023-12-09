@@ -4,8 +4,11 @@ package restaurant.rest.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import restaurant.rest.api.AuthorizedUser;
 import restaurant.rest.api.model.User;
 import restaurant.rest.api.repository.UserRepository;
 
@@ -14,7 +17,7 @@ import java.util.List;
 import static restaurant.rest.api.util.ValidationUtil.*;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
@@ -47,4 +50,14 @@ public class UserService {
     public User getByEmail(String email){
         return this.repository.getByEmail(email);
     }
+
+    @Override
+    public AuthorizedUser loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = this.repository.getByUsername(username);
+        if(user == null){
+            throw new UsernameNotFoundException("user with username =" + username + " not found");
+        }
+        return new AuthorizedUser(user.getId(), user.getUsername(), user.getPassword(), user.isEnabled());
+    }
+
 }

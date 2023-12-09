@@ -17,21 +17,20 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 public class MenuTo extends AbstractBaseTo {
-    private Integer id;
     private LocalDate date;
     private LocalTime time;
     private List<MenuItemTo> items;
     @Override
-    protected AbstractBaseEntity toEntity() {
+    public AbstractBaseEntity toEntity() {
         Menu menu = new Menu();
-        menu.setId(this.id);
+        menu.setId(this.getId());
         menu.setDate(this.date);
         menu.setMenuItems(convertToDto());
         return null;
     }
 
     @Override
-    protected AbstractBaseTo toDto(AbstractBaseEntity entity) {
+    public AbstractBaseTo toDto(AbstractBaseEntity entity) {
         Menu menu = (Menu) entity;
         this.setId(menu.getId());
         this.setDate(menu.getDate());

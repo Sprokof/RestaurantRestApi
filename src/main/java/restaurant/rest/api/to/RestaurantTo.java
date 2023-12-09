@@ -10,15 +10,14 @@ import restaurant.rest.api.model.Restaurant;
 @Getter
 @Setter
 public class RestaurantTo extends AbstractBaseTo {
-    private Integer id;
     private String name;
     private String description;
     private int countVotes;
 
     @Override
-    protected AbstractBaseEntity toEntity() {
+    public AbstractBaseEntity toEntity() {
         Restaurant restaurant = new Restaurant();
-        restaurant.setId(this.id);
+        restaurant.setId(this.getId());
         restaurant.setDescription(this.description);
         restaurant.setName(this.name);
         restaurant.setCountVotes(this.countVotes);
@@ -26,7 +25,7 @@ public class RestaurantTo extends AbstractBaseTo {
     }
 
     @Override
-    protected AbstractBaseTo toDto(AbstractBaseEntity entity) {
+    public AbstractBaseTo toDto(AbstractBaseEntity entity) {
         Restaurant restaurant = (Restaurant) entity;
         this.setId(restaurant.getId());
         this.setName(restaurant.getName());

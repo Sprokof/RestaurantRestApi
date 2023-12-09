@@ -6,6 +6,7 @@ import restaurant.rest.api.model.User;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Set;
 
 
 public class UserTestData {
@@ -16,7 +17,7 @@ public class UserTestData {
     public static final int NOT_FOUND = 0;
     public static final User USER_1 = new User("userName1", "user@email1.com", "userPassword1", Collections.singleton(Role.USER));
     public static final User USER_2 = new User("userName2", "user@email2.com", "userPassword2", Collections.singleton(Role.USER));
-    public static final User ADMIN = new User("adminName", "admin@email.com", "userPassword", Collections.singleton(Role.ADMIN));
+    public static final User ADMIN = new User("adminName", "admin@email.com", "userPassword", Set.of(Role.ADMIN, Role.USER));
 
     static {
         USER_1.setId(USER_ID);

@@ -7,9 +7,12 @@ import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +25,7 @@ public class User extends AbstractBaseEntity {
 
     @Setter
     @Column(name = "name", nullable = false, unique = true)
-    private String name;
+    private String username;
 
     @Setter
     @Email
@@ -36,6 +39,10 @@ public class User extends AbstractBaseEntity {
     @Column(name = "registered")
     @Setter
     private LocalDateTime registered;
+
+    @Column(name = "enabled")
+    @Setter
+    private boolean enabled;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
@@ -61,36 +68,41 @@ public class User extends AbstractBaseEntity {
         this.registered = LocalDateTime.now();
     }
 
-    public User(String name, String email, String password, Set<Role> roles){
-        this.name = name;
+    public User(String userName, String email, String password, Set<Role> roles){
+        this.username = userName;
         this.email = email;
         this.password = password;
         this.registered = LocalDateTime.now();
         this.roles = roles;
+        this.enabled = true;
     }
 
 
-    public User(String name, String email, String password, LocalDateTime registered, Set<Role> roles){
-        this.name = name;
+    public User(String username, String email, String password, LocalDateTime registered, Set<Role> roles){
+        this.username = username;
         this.email = email;
         this.password = password;
         this.registered = registered;
         this.roles = roles;
+        this.enabled = true;
     }
 
 
     public User(User user){
-        this(user.name, user.email, user.password, user.registered, user.roles);
+        this(user.username, user.email, user.password, user.registered, user.roles);
+        this.setEnabled(true);
     }
 
 
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
+                "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", registered=" + registered +
                 '}';
     }
+
+
 }
