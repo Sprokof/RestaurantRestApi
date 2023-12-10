@@ -5,24 +5,37 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import restaurant.rest.api.model.Role;
 import restaurant.rest.api.model.User;
+import restaurant.rest.api.to.AbstractBaseTo;
 import restaurant.rest.api.to.UserTo;
+import restaurant.rest.api.util.SecurityUtil;
 
 import java.util.*;
 
 @Getter
 public class AuthorizedUser extends org.springframework.security.core.userdetails.User {
 
-    private final UserTo userTo;
+    private UserTo userTo;
 
     public AuthorizedUser(User user) {
-        super(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, authorities(user.getRoles()));
-        this.userTo = (UserTo) new UserTo().toDto(user);
+        super(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, SecurityUtil.authorities(user.getRoles()));
+        this.userTo = (UserTo) AbstractBaseTo.asDto(user);
     }
 
-
-    private static Set<GrantedAuthority> authorities(Set<Role> roles){
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole())));
-        return authorities;
+    public int getId() {
+        return userTo.id();
     }
+
+    public void update(UserTo newTo) {
+        this.userTo = newTo;
+    }
+
+    public UserTo getUserTo() {
+        return userTo;
+    }
+
+    @Override
+    public String toString() {
+        return userTo.toString();
+    }
+
 }

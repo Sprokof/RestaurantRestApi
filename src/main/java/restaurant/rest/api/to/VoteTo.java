@@ -19,6 +19,7 @@ public class VoteTo extends AbstractBaseTo {
     @Override
     public AbstractBaseEntity toEntity() {
         Vote vote = new Vote();
+        vote.setId(this.getId());
         vote.setVoteTime(this.getVoteTime());
         vote.setVoteDate(this.getVoteDate());
         return vote;
@@ -27,6 +28,7 @@ public class VoteTo extends AbstractBaseTo {
     @Override
     public AbstractBaseTo toDto(AbstractBaseEntity entity) {
         Vote vote = (Vote) entity;
+        this.setId(vote.getId());
         this.setVoteDate(vote.getVoteDate());
         this.setVoteTime(vote.getVoteTime());
         return this;

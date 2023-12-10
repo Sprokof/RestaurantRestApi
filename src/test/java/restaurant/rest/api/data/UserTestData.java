@@ -33,7 +33,7 @@ public class UserTestData {
         User updated = new User(USER_1);
         updated.setId(USER_ID);
         updated.setEmail("update@gmail.com");
-        updated.setName("UpdatedName");
+        updated.setUsername("UpdatedName");
         updated.setPassword("newPass");
         updated.setRoles(Collections.singleton(Role.ADMIN));
         return updated;

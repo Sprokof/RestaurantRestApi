@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
         if(user == null){
             throw new UsernameNotFoundException("user with username =" + username + " not found");
         }
-        return new AuthorizedUser(user.getId(), user.getUsername(), user.getPassword(), user.isEnabled());
+        return new AuthorizedUser(user);
     }
 
 }

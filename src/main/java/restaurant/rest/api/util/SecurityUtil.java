@@ -1,8 +1,14 @@
 package restaurant.rest.api.util;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import restaurant.rest.api.AuthorizedUser;
+import restaurant.rest.api.model.Role;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
@@ -25,6 +31,12 @@ public class SecurityUtil {
 
     public static int authUserId() {
         return get().getUserTo().id();
+    }
+
+    public static Set<GrantedAuthority> authorities(Set<Role> roles){
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole())));
+        return authorities;
     }
 
 }

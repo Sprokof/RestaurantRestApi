@@ -30,12 +30,12 @@ public class BasicSecurityConfiguration extends WebSecurityConfiguration {
     }
     @Bean
     public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails user = User.withUsername("user@yandex.ru")
+        UserDetails user = User.withUsername("userName")
                 .password(passwordEncoder.encode("userPassword"))
                 .roles("USER")
                 .build();
 
-        UserDetails admin = User.withUsername("admin@yandex.ru")
+        UserDetails admin = User.withUsername("adminName")
                 .password(passwordEncoder.encode("adminPassword"))
                 .roles("USER", "ADMIN")
                 .build();
