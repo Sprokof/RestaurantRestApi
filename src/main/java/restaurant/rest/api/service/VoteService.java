@@ -1,6 +1,7 @@
 package restaurant.rest.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import restaurant.rest.api.model.User;
@@ -29,20 +30,22 @@ public class VoteService {
                 "userId=" + userId + ", restaurantId" + restaurantId);
     }
 
-    public void delete(int id, int userId, int restaurantId){
-        checkNotFound(repository.delete(id, userId, restaurantId),
-                "id=" + id  + ", userId=" + userId +
-                        ", restaurantId" + restaurantId);
+    public void delete(int id, int userId){
+        checkNotFound(repository.delete(id, userId),
+                "id=" + id  + ", userId=" + userId + ", restaurantId");
     }
 
-    public Vote get(int id, int userId, int restaurantId) {
-        return checkNotFound(repository.get(id, userId, restaurantId),
-                "id=" + id + ", userId=" + userId +
-                        ", restaurantId" + restaurantId);
+    public Vote getWithRestaurant(int id, int userId){
+        return checkNotFound(repository.getWithRestaurant(id, userId),
+                "id=" + id  + ", userId" + userId);
     }
 
     public Vote getActualWithRestaurantByUserId(int userId) {
         return this.repository.getWithRestaurantByUserIdAndDate(LocalDate.now(), userId);
+    }
+
+    public Vote get(int id, int userId) {
+        return this.repository.get(id, userId);
     }
 
     public List<Vote> getAllWithRestaurantByUserId(int userId) {
@@ -57,8 +60,12 @@ public class VoteService {
         return this.repository.getWithUserByRestaurantIdAndDate(LocalDate.now(), restaurantId);
     }
 
-    public Vote getByUserIdAndDate(LocalDate localDate, int userId){
-        return this.repository.getByUserIdAndDate(localDate, userId);
+    public List<Vote> getAll(int userId) {
+        return this.repository.getAll(userId);
+    }
+
+    public Vote getActual(int userId){
+        return this.repository.getByUserIdAndDate(LocalDate.now(), userId);
     }
 
     public int getVotesCount(LocalDate date, int restaurantId){

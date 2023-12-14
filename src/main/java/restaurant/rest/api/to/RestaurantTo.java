@@ -24,7 +24,6 @@ public class RestaurantTo extends AbstractBaseTo {
         return restaurant;
     }
 
-    @Override
     public AbstractBaseTo toDto(AbstractBaseEntity entity) {
         Restaurant restaurant = (Restaurant) entity;
         this.setId(restaurant.getId());

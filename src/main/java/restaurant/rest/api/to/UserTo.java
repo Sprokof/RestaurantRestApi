@@ -21,7 +21,7 @@ public class UserTo extends AbstractBaseTo {
     private Set<Role> roles;
 
     @Override
-    public AbstractBaseEntity toEntity() {
+    public User toEntity() {
         User user = new User();
         user.setId(this.getId());
         user.setUsername(this.username);
@@ -31,17 +31,6 @@ public class UserTo extends AbstractBaseTo {
         return user;
     }
 
-    @Override
-    public AbstractBaseTo toDto(AbstractBaseEntity entity) {
-        User user = (User) entity;
-        this.setId(user.getId());
-        this.setUsername(user.getUsername());
-        this.setEmail(user.getEmail());
-        this.setPassword(user.getPassword());
-        this.setRegistered(user.getRegistered());
-        this.setRoles(user.getRoles());
-        return this;
-    }
 
 
 

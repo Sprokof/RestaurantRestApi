@@ -8,6 +8,7 @@ import restaurant.rest.api.model.User;
 import restaurant.rest.api.to.AbstractBaseTo;
 import restaurant.rest.api.to.UserTo;
 import restaurant.rest.api.util.SecurityUtil;
+import restaurant.rest.api.util.UserUtil;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
 
     public AuthorizedUser(User user) {
         super(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, SecurityUtil.authorities(user.getRoles()));
-        this.userTo = (UserTo) AbstractBaseTo.asDto(user);
+        this.userTo = UserUtil.toDto(user);
     }
 
     public int getId() {

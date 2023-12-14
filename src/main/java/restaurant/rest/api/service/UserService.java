@@ -60,4 +60,8 @@ public class UserService implements UserDetailsService {
         return new AuthorizedUser(user);
     }
 
+    public User getByUsername(String username){
+        return this.repository.getByUsername(username);
+    }
+
 }

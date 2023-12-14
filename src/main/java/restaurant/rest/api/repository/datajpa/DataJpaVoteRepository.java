@@ -10,6 +10,7 @@ import restaurant.rest.api.repository.VoteRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -38,21 +39,29 @@ public class DataJpaVoteRepository implements VoteRepository  {
         if(vote.isNew()){
             return this.voteRepository.save(vote);
         }
-        return voteRepository.findById(vote.id())
-                .filter(v -> v.getUser().id() == userId)
-                .isPresent() ? voteRepository.save(vote) : null;
+        return get(vote.id(), userId) != null ? voteRepository.save(vote) : null;
     }
 
     @Override
-    public boolean delete(int id, int userId, int restaurantId) {
-        return this.voteRepository.delete(id, userId, restaurantId) != 0;
+    public Vote get(int id, int userId) {
+        Optional<Vote> vote = this.voteRepository.findById(id);
+        return (vote.isPresent() && vote.get().getUser().id() == userId) ? vote.get() : null;
     }
 
     @Override
-    public Vote get(int id, int userId, int restaurantId) {
-        return this.voteRepository.get(id, userId, restaurantId);
+    public boolean delete(int id, int userId) {
+        return this.voteRepository.delete(id, userId) != 0;
     }
 
+    @Override
+    public Vote getWithRestaurant(int id, int userId) {
+        return voteRepository.getWithRestaurant(id, userId);
+    }
+
+    @Override
+    public List<Vote> getAll(int userId) {
+        return this.voteRepository.getAll(userId);
+    }
 
     @Override
     public List<Vote> getAllWithRestaurantByUserId(int userId) {

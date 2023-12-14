@@ -14,10 +14,15 @@ import java.util.List;
 public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @Transactional
     @Modifying
-    @Query("DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:u_id AND v.restaurant.id=:r_id")
-    int delete(@Param("id") int id, @Param("u_id") int userId, @Param("r_id") int restaurantId);
-    @Query("SELECT v FROM Vote v WHERE v.id=:id AND v.user.id=:u_id AND v.restaurant.id=:r_id")
-    Vote get(@Param("id") int id, @Param("u_id") int userId, @Param("r_id") int restaurantId);
+    @Query("DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:u_id")
+    int delete(@Param("id") int id, @Param("u_id") int userId);
+
+    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.id=:id AND v.user.id=:u_id")
+    Vote getWithRestaurant(@Param("id") int id, @Param("u_id") int userId);
+
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:u_id ORDER BY v.voteDate DESC")
+    List<Vote> getAll(@Param("u_id") int userId);
+
     @Query("SELECT v FROM Vote v WHERE v.voteDate=:date AND v.user.id=:u_id ")
     Vote getWithRestaurantByUserIdAndDate(@Param("date") LocalDate date, @Param("u_id") int userId);
     @Query("SELECT v FROM Vote v WHERE v.voteDate=:date AND v.user.id=:u_id")

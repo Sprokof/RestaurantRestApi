@@ -1,20 +1,16 @@
 package restaurant.rest.api.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -44,7 +40,6 @@ public class User extends AbstractBaseEntity {
     @Setter
     private boolean enabled;
 
-    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @Setter
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
@@ -52,6 +47,7 @@ public class User extends AbstractBaseEntity {
     @Column(name = "role")
     @BatchSize(size = 200)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @ElementCollection(fetch = FetchType.EAGER)
     @JoinColumn
     private Set<Role> roles;
 
