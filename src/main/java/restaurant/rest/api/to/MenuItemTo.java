@@ -1,5 +1,6 @@
 package restaurant.rest.api.to;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ public class MenuItemTo extends AbstractBaseTo {
     private String dish;
     private double price;
 
+
     @Override
     public AbstractBaseEntity toEntity() {
         MenuItem item = new MenuItem();
@@ -22,12 +24,4 @@ public class MenuItemTo extends AbstractBaseTo {
         return item;
     }
 
-    @Override
-    public AbstractBaseTo toDto(AbstractBaseEntity entity) {
-        MenuItem item = (MenuItem) entity;
-        this.setId(item.getId());
-        this.setDish(item.getDish());
-        this.setPrice(item.getPrice());
-        return this;
-    }
 }

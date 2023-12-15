@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import restaurant.rest.api.model.AbstractBaseEntity;
+import restaurant.rest.api.model.Menu;
 import restaurant.rest.api.model.Restaurant;
 
 @NoArgsConstructor
@@ -13,24 +14,20 @@ public class RestaurantTo extends AbstractBaseTo {
     private String name;
     private String description;
     private int countVotes;
+    private MenuTo menuTo;
 
     @Override
-    public AbstractBaseEntity toEntity() {
+    public Restaurant toEntity() {
         Restaurant restaurant = new Restaurant();
         restaurant.setId(this.getId());
         restaurant.setDescription(this.description);
         restaurant.setName(this.name);
-        restaurant.setCountVotes(this.countVotes);
+        restaurant.addMenu(this.menuTo.toEntity());
         return restaurant;
     }
 
-    public AbstractBaseTo toDto(AbstractBaseEntity entity) {
-        Restaurant restaurant = (Restaurant) entity;
-        this.setId(restaurant.getId());
-        this.setName(restaurant.getName());
-        this.setDescription(restaurant.getDescription());
-        this.setCountVotes(restaurant.getCountVotes());
-        return this;
-    }
+
+
+
 
 }

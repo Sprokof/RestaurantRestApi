@@ -11,7 +11,10 @@ import restaurant.rest.api.util.exception.NotFoundException;
 
 import java.util.List;
 
+
+import static restaurant.rest.api.data.RestaurantTestData.RESTAURANT_MATCHER;
 import static restaurant.rest.api.data.RestaurantTestData.RESTAURANT_ID;
+import static restaurant.rest.api.data.RestaurantTestData.RESTAURANT_1;
 import static restaurant.rest.api.data.UserTestData.USER_ID;
 import static restaurant.rest.api.data.VoteTestData.*;
 import static org.junit.Assert.assertThrows;
@@ -56,6 +59,14 @@ public class VoteServiceTest {
         Vote vote = service.get(VOTE_ID, USER_ID);
         VOTE_MATCHER.assertMatch(vote, VOTE_1);
     }
+
+    @Test
+    public void getWithRestaurant() {
+        Vote vote = service.getWithRestaurant(VOTE_ID, USER_ID);
+        VOTE_MATCHER.assertMatch(vote, VOTE_1);
+        RESTAURANT_MATCHER.assertMatch(vote.getRestaurant(), RESTAURANT_1);
+    }
+
 
     @Test
     public void getNotFound() {

@@ -11,11 +11,4 @@ public class VoteUtil {
         return voteTime.isBefore(ACCEPT_TIME_LIMIT);
     }
 
-    public static VoteTo toDto(Vote vote) {
-        VoteTo voteTo = new VoteTo();
-        voteTo.setId(vote.getId());
-        voteTo.setVoteDate(vote.getVoteDate());
-        voteTo.setVoteTime(vote.getVoteTime());
-        return voteTo;
-    }
 }

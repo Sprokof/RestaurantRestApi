@@ -68,9 +68,6 @@ public class VoteService {
         return this.repository.getByUserIdAndDate(LocalDate.now(), userId);
     }
 
-    public int getVotesCount(LocalDate date, int restaurantId){
-        return this.repository.getVotesCount(date, restaurantId);
-    }
 
     public int getActualVotesCount(int restaurantId){
         return this.repository.getVotesCount(LocalDate.now(), restaurantId);

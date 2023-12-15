@@ -30,9 +30,6 @@ public class Restaurant extends AbstractBaseEntity {
     @NotBlank
     private String name;
 
-    @Column(name = "count_votes")
-    @Setter
-    private int countVotes;
 
     public Restaurant(){}
 
@@ -43,7 +40,6 @@ public class Restaurant extends AbstractBaseEntity {
     }
     public Restaurant(Restaurant restaurant){
         this(restaurant.name, restaurant.description);
-        this.setCountVotes(restaurant.countVotes);
         this.setMenus(restaurant.menus);
     }
 
@@ -65,7 +61,6 @@ public class Restaurant extends AbstractBaseEntity {
                 "id=" + id + '\'' +
                 ", description='" + description + '\'' +
                 ", name='" + name + '\'' +
-                ", countVotes=" + countVotes + '\'' +
                 '}';
     }
 }

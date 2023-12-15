@@ -8,6 +8,7 @@ import restaurant.rest.api.service.RestaurantService;
 import restaurant.rest.api.service.UserService;
 import restaurant.rest.api.service.VoteService;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -22,10 +23,12 @@ public class PopulateDatabase implements CommandLineRunner  {
     private static final Restaurant RESTAURANT_2 = new Restaurant("restaurant2", "restaurant2Description");
     private static final Restaurant RESTAURANT_3 = new Restaurant("restaurant3", "restaurant3Description");
     private static final Menu menu1 = new Menu(new MenuItem("dish1M1", 100), new MenuItem("dish2M1", 110));
+
     private static final Menu menu2 = new Menu(new MenuItem("dish1M2", 120), new MenuItem("dish2M2", 105));
     private static final Menu menu3 = new Menu(new MenuItem("dish1M3", 130), new MenuItem("dish2M3", 150));
     private static final Vote VOTE_1 = new Vote();
     private static final Vote VOTE_2 = new Vote();
+    private static final Vote VOTE_3 = new Vote();
 
 
 
@@ -61,6 +64,7 @@ public class PopulateDatabase implements CommandLineRunner  {
     public void insertVotes(){
         voteService.create(VOTE_1, 1, 1);
         voteService.create(VOTE_2, 2, 2);
+        voteService.create(VOTE_3, 3, 2);
     }
 
     @Override

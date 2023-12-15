@@ -62,7 +62,7 @@ public class VoteRestController {
     }
 
 
-    @GetMapping(PROFILE_REST_URL + "/{id}")
+    @GetMapping(PROFILE_REST_URL + "/{id}/with-restaurant")
     public Vote getWithRestaurant(@PathVariable int id) {
         log.info("get {}", id);
         return voteService.getWithRestaurant(id, authUserId());
@@ -81,6 +81,8 @@ public class VoteRestController {
         log.info("getAll");
         return voteService.getAllActualWithUserByRestaurantId(restaurantId);
     }
+
+
 
     @PostMapping(value = RESTAURANT_REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createWithLocation(@PathVariable int restaurantId, @RequestBody VoteTo voteTo) {
@@ -102,6 +104,7 @@ public class VoteRestController {
         assureIdConsistent(vote, id);
         voteService.update(vote, authUserId(), restaurantId);
     }
+
 
 
 }

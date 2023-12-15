@@ -20,36 +20,22 @@ public class MenuTo extends AbstractBaseTo {
     private LocalDate date;
     private LocalTime time;
     private List<MenuItemTo> items;
+
     @Override
-    public AbstractBaseEntity toEntity() {
+    public Menu toEntity() {
         Menu menu = new Menu();
         menu.setId(this.getId());
         menu.setDate(this.date);
-        menu.setMenuItems(convertToDto());
+        menu.setMenuItems(convertToEntity());
         return null;
     }
 
-    @Override
-    public AbstractBaseTo toDto(AbstractBaseEntity entity) {
-        Menu menu = (Menu) entity;
-        this.setId(menu.getId());
-        this.setDate(menu.getDate());
-        this.setTime(menu.getTime());
-        this.setItems(convertToEntity(menu.getMenuItems()));
-        return this;
-    }
-
-    private List<MenuItem> convertToDto(){
+    private List<MenuItem> convertToEntity(){
         return this.items.stream()
                 .map(i -> (MenuItem) i.toEntity())
                 .collect(Collectors.toList());
     }
 
-    private List<MenuItemTo> convertToEntity(List<MenuItem> items){
-        return items.stream()
-                .map(i -> (MenuItemTo) this.toDto(i))
-                .collect(Collectors.toList());
-    }
 
 
 }

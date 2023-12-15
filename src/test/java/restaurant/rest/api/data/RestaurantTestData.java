@@ -10,12 +10,14 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 
 public class RestaurantTestData {
-    public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingIgnoringFieldsComparator("menus", "countVotes");
+    public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingIgnoringFieldsComparator("menus");
 
     public static final LocalDate MENU_CREATED_DATE = LocalDate.now();
     public static final int RESTAURANT_ID = 1;
     public static final int NOT_FOUND = 0;
     public static final int CREATED_RESTAURANT_ID = 4;
+
+    public static final int TOP = 2;
     public static final Restaurant RESTAURANT_1 = new Restaurant("restaurant1", "restaurant1Description");
     public static final Restaurant RESTAURANT_2 = new Restaurant("restaurant2", "restaurant2Description");
     public static final Restaurant RESTAURANT_3 = new Restaurant("restaurant3", "restaurant3Description");

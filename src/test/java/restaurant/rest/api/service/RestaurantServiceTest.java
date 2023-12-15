@@ -12,8 +12,7 @@ import restaurant.rest.api.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.Assert.assertThrows;
-
+import static org.junit.Assert.*;
 import static restaurant.rest.api.data.RestaurantTestData.*;
 
 @RunWith(SpringRunner.class)
@@ -48,6 +47,7 @@ public class RestaurantServiceTest {
     @Test
     public void getAllWithMenuByDate(){
         List<Restaurant> all = service.getAllWithMenuByDate(LocalDate.now());
+
         RESTAURANT_MATCHER.assertMatch(all, RESTAURANT_1, RESTAURANT_2, RESTAURANT_3);
 
     }
@@ -55,6 +55,7 @@ public class RestaurantServiceTest {
     @Test
     public void getWithMenu (){
         Restaurant found = this.service.getWithMenu(RESTAURANT_ID + 1);
+        System.out.println(found.getMenus());
         RESTAURANT_MATCHER.assertMatch(found, RESTAURANT_2);
     }
 
@@ -75,5 +76,15 @@ public class RestaurantServiceTest {
         assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
     }
 
+    @Test
+    public void getVotesCount(){
+        int actual = this.service.getVotesCount(RESTAURANT_ID + 1);
+        assertEquals(2, actual);
+    }
 
+    @Test
+    public void getTopRestaurantsByDate(){
+        List<Restaurant> top = this.service.getTopRestaurantsByDate(LocalDate.now(), TOP);
+        RESTAURANT_MATCHER.assertMatch(top, RESTAURANT_2, RESTAURANT_1);
+    }
 }

@@ -1,6 +1,5 @@
 package restaurant.rest.api.repository;
 
-import org.springframework.data.repository.query.Param;
 import restaurant.rest.api.model.Restaurant;
 
 import java.time.LocalDate;
@@ -14,4 +13,7 @@ public interface RestaurantRepository {
     List<Restaurant> getAll();
     List<Restaurant> getAllWithMenuByDate(LocalDate date);
     Restaurant getWithMenuByDate(LocalDate date, int id);
+    List<Restaurant> getTopRestaurantsByDate(LocalDate date);
+    int getVotesCount(int id, LocalDate date);
+
 }
