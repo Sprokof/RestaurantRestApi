@@ -1,7 +1,5 @@
 package restaurant.rest.api.repository.datajpa;
 
-import org.aspectj.apache.bcel.util.Repository;
-import org.h2.mvstore.tx.Transaction;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -26,7 +24,7 @@ public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
     List<Menu> getAll(@Param("r_id") int restaurantId);
     @Query("SELECT m FROM Menu m WHERE (m.date=:date OR m.id = (SELECT max(id) FROM Menu m WHERE m.restaurantId=:r_id)) AND m.restaurantId=:r_id")
     @EntityGraph(attributePaths = "menuItems", type = EntityGraph.EntityGraphType.LOAD)
-    Menu getMenuByDateAAndRestaurantId(@Param("date") LocalDate date, @Param("r_id") int restaurantId);
+    Menu getMenuByDate(@Param("date") LocalDate date, @Param("r_id") int restaurantId);
 
 
 

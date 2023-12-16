@@ -83,12 +83,11 @@ public class VoteRestController {
     }
 
 
-
     @PostMapping(value = RESTAURANT_REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createWithLocation(@PathVariable int restaurantId, @RequestBody VoteTo voteTo) {
         Vote created = this.voteService.create(voteTo.toEntity(), authUserId(), restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(RESTAURANT_REST_URL + "/" + restaurantId + "/{id}")
+                .path(RESTAURANT_REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }

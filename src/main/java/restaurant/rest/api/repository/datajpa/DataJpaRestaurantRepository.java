@@ -62,7 +62,7 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
     }
 
     @Override
-    public List<Restaurant> getTopRestaurantsByDate(LocalDate date) {
-        return this.repository.getTopRestaurantsByDate(date);
+    public List<Restaurant> getTopByDate(LocalDate date) {
+        return this.repository.getTopByDate(date);
     }
 }

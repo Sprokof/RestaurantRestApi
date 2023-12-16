@@ -68,13 +68,13 @@ public class RestaurantService {
         return this.repository.getVotesCount(id, LocalDate.now());
     }
 
-    public List<Restaurant> getTopRestaurantsByDate(LocalDate date, int top) {
+    public List<Restaurant> getTopByDate(LocalDate date, int top) {
         List<Restaurant> restaurants = this.repository.getTopRestaurantsByDate(date);
         return restaurants.subList(0, Math.min(restaurants.size(), top));
     }
 
-    public List<Restaurant> getActualTopRestaurants(int top) {
-        return getTopRestaurantsByDate(LocalDate.now(), top);
+    public List<Restaurant> getActualTop(int top) {
+        return getTopByDate(LocalDate.now(), top);
     }
 
 }

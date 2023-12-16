@@ -9,7 +9,7 @@ public interface MenuRepository {
     Menu save(Menu menu, int restaurantId);
     boolean delete(int id, int restaurantId);
     Menu get(int id, int restaurantId);
-    Menu getMenuByDateAndRestaurantId(LocalDate date, int restaurantId);
+    Menu getMenuByDate(LocalDate date, int restaurantId);
     List<Menu> getAll(int restaurantId);
 
 

@@ -14,9 +14,8 @@ public class MenuItemTo extends AbstractBaseTo {
     private String dish;
     private double price;
 
-
     @Override
-    public AbstractBaseEntity toEntity() {
+    public MenuItem toEntity() {
         MenuItem item = new MenuItem();
         item.setId(this.getId());
         item.setDish(this.dish);

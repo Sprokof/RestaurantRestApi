@@ -29,7 +29,7 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     int getVotesCount(@Param("id") int id, @Param("date") LocalDate date);
 
     @Query("SELECT r FROM Restaurant r, Vote v WHERE r.id=v.restaurant.id AND v.voteDate=:date GROUP BY r ORDER BY COUNT(v.id) DESC")
-    List<Restaurant> getTopRestaurantsByDate(@Param("date") LocalDate date);
+    List<Restaurant> getTopByDate(@Param("date") LocalDate date);
 
 
 }

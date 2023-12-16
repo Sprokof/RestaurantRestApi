@@ -37,11 +37,16 @@ public class MenuService {
         return checkNotFound(repository.get(id, restaurantId),
                 "id=" + id + ", restaurantId=" + restaurantId);
     }
+
     public List<Menu> getAll(int restaurantId){
         return this.repository.getAll(restaurantId);
     }
 
     public Menu getActualMenu(int restaurantId){
-        return this.repository.getMenuByDateAndRestaurantId(LocalDate.now(), restaurantId);
+        return getMenuByDate(LocalDate.now(), restaurantId);
+    }
+
+    public Menu getMenuByDate(LocalDate date, int restaurantId){
+        return this.repository.getMenuByDate(date, restaurantId);
     }
 }

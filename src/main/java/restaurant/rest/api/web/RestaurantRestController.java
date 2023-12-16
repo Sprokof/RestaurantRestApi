@@ -32,44 +32,45 @@ public class RestaurantRestController {
 
 
     @GetMapping(REST_URL)
-    public List<RestaurantTo> getAll(){
+    public List<RestaurantTo> getAll() {
         log.info("getAll");
         return RestaurantUtil.toDtos(this.service.getAll(), this.service);
     }
 
     @GetMapping(REST_URL + "/by-name")
-    public List<RestaurantTo> getAllByName(@RequestParam String name){
+    public List<RestaurantTo> getAllByName(@RequestParam String name) {
         log.info("getAll with name={}", name);
         return RestaurantUtil.toDtos(this.service.getAllByName(name), service);
     }
 
     @GetMapping(REST_URL + "/{id}/with-menu")
-    public RestaurantTo getWithMenu(@PathVariable int id){
+    public RestaurantTo getWithMenu(@PathVariable int id) {
         log.info("get {}", id);
         return RestaurantUtil.toDto(service.getWithMenu(id), service.getVotesCount(id));
     }
 
     @GetMapping(REST_URL + "/{id}")
-    public RestaurantTo get(@PathVariable int id){
+    public RestaurantTo get(@PathVariable int id) {
         log.info("get {}", id);
         return RestaurantUtil.toDto(service.get(id), service.getVotesCount(id));
     }
 
     @GetMapping(REST_URL + "/{id}/with-menu/by-date")
-    public List<RestaurantTo> getAllWithMenuByDate(@PathVariable int id, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+    public List<RestaurantTo> getAllWithMenuByDate(@PathVariable int id, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         log.info("getAll {}", id);
         return RestaurantUtil.toDtos(service.getAllWithMenuByDate(date), service);
     }
 
     @GetMapping(REST_URL)
-    public List<RestaurantTo> getTopRestaurants(@RequestParam int top) {
-        List<Restaurant> restaurants = this.service.getActualTopRestaurants(top);
+    public List<RestaurantTo> getTop(@RequestParam int top) {
+        log.info("getTop");
+        List<Restaurant> restaurants = this.service.getActualTop(top);
         return RestaurantUtil.toDtos(restaurants, service);
     }
 
     @GetMapping(REST_ADMIN_URL + "/by-date")
-    public List<RestaurantTo> getTopRestaurantsByDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam int top) {
-        List<Restaurant> restaurants = this.service.getTopRestaurantsByDate(date, top);
+    public List<RestaurantTo> getTopByDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam int top) {
+        List<Restaurant> restaurants = this.service.getTopByDate(date, top);
         return RestaurantUtil.toDtos(restaurants, service);
     }
 
@@ -84,12 +85,12 @@ public class RestaurantRestController {
 
     @DeleteMapping(REST_ADMIN_URL + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id){
+    public void delete(@PathVariable int id) {
         log.info("delete {}", id);
         this.service.delete(id);
     }
 
-    @PutMapping(value = REST_ADMIN_URL +  "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = REST_ADMIN_URL + "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
         log.info("update {} with id={}", restaurantTo, id);
@@ -99,4 +100,5 @@ public class RestaurantRestController {
     }
 
 
-    }
+
+}

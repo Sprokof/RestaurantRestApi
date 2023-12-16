@@ -13,7 +13,7 @@ public interface RestaurantRepository {
     List<Restaurant> getAll();
     List<Restaurant> getAllWithMenuByDate(LocalDate date);
     Restaurant getWithMenuByDate(LocalDate date, int id);
-    List<Restaurant> getTopRestaurantsByDate(LocalDate date);
+    List<Restaurant> getTopByDate(LocalDate date);
     int getVotesCount(int id, LocalDate date);
 
 }
