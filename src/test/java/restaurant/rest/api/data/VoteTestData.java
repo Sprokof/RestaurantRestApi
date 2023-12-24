@@ -8,7 +8,7 @@ import java.time.LocalTime;
 
 public class VoteTestData {
 
-    public static final MatcherFactory.Matcher<Vote> VOTE_MATCHER = MatcherFactory.usingIgnoringFieldsComparator("voteDate", "voteTime", "restaurant", "user");
+    public static final MatcherFactory.Matcher<Vote> VOTE_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Vote.class,"voteDate", "voteTime", "restaurant", "user");
     public static final int VOTE_ID = 1;
     public static final int NOT_FOUND = 0;
     public static final int CREATED_VOTE_ID = 3;

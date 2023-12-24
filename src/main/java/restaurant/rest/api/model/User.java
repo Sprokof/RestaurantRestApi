@@ -20,7 +20,7 @@ import java.util.Set;
 public class User extends AbstractBaseEntity {
 
     @Setter
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Setter

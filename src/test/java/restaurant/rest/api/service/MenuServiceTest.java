@@ -1,7 +1,7 @@
 package restaurant.rest.api.service;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -11,11 +11,10 @@ import restaurant.rest.api.util.exception.NotFoundException;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static restaurant.rest.api.data.MenuTestData.*;
 import static restaurant.rest.api.data.RestaurantTestData.RESTAURANT_ID;
-import static org.junit.Assert.assertThrows;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = ServiceTestConfig.class)
 public class MenuServiceTest {
 
@@ -23,7 +22,7 @@ public class MenuServiceTest {
     private MenuService service;
 
     @Test
-    public void create(){
+    void create(){
         Menu created = service.create(getNew(), RESTAURANT_ID);
         int newId = created.id();
         Menu newMenu = getNew();

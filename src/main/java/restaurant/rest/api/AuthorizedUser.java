@@ -18,7 +18,7 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
     private UserTo userTo;
 
     public AuthorizedUser(User user) {
-        super(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, SecurityUtil.authorities(user.getRoles()));
+        super(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, user.getRoles());
         this.userTo = UserUtil.toDto(user);
     }
 
@@ -28,10 +28,6 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
 
     public void update(UserTo newTo) {
         this.userTo = newTo;
-    }
-
-    public UserTo getUserTo() {
-        return userTo;
     }
 
     @Override

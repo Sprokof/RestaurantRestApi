@@ -69,7 +69,7 @@ public class RestaurantService {
     }
 
     public List<Restaurant> getTopByDate(LocalDate date, int top) {
-        List<Restaurant> restaurants = this.repository.getTopRestaurantsByDate(date);
+        List<Restaurant> restaurants = this.repository.getTopByDate(date);
         return restaurants.subList(0, Math.min(restaurants.size(), top));
     }
 

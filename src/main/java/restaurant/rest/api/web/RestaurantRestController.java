@@ -55,28 +55,28 @@ public class RestaurantRestController {
         return RestaurantUtil.toDto(service.get(id), service.getVotesCount(id));
     }
 
-    @GetMapping(REST_URL + "/{id}/with-menu/by-date")
-    public List<RestaurantTo> getAllWithMenuByDate(@PathVariable int id, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        log.info("getAll {}", id);
+    @GetMapping(REST_URL + "/with-menu/by-date")
+    public List<RestaurantTo> getAllWithMenuByDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        log.info("getAllWithMenuDyDate {}", date);
         return RestaurantUtil.toDtos(service.getAllWithMenuByDate(date), service);
     }
 
-    @GetMapping(REST_URL)
+    @GetMapping(REST_URL + "/top")
     public List<RestaurantTo> getTop(@RequestParam int top) {
         log.info("getTop");
         List<Restaurant> restaurants = this.service.getActualTop(top);
         return RestaurantUtil.toDtos(restaurants, service);
     }
 
-    @GetMapping(REST_ADMIN_URL + "/by-date")
+    @GetMapping(REST_ADMIN_URL + "/top")
     public List<RestaurantTo> getTopByDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam int top) {
         List<Restaurant> restaurants = this.service.getTopByDate(date, top);
         return RestaurantUtil.toDtos(restaurants, service);
     }
 
     @PostMapping(value = REST_ADMIN_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createWithLocation(@RequestBody RestaurantTo restaurantTo) {
-        Restaurant created = this.service.create(restaurantTo.toEntity());
+    public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
+        Restaurant created = this.service.create(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -92,9 +92,8 @@ public class RestaurantRestController {
 
     @PutMapping(value = REST_ADMIN_URL + "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
-        log.info("update {} with id={}", restaurantTo, id);
-        Restaurant restaurant = restaurantTo.toEntity();
+    public void update(@RequestBody Restaurant restaurant, @PathVariable int id) {
+        log.info("update {} with id={}", restaurant, id);
         assureIdConsistent(restaurant, id);
         this.service.update(restaurant);
     }

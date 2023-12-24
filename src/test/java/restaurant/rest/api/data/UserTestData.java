@@ -10,10 +10,11 @@ import java.util.Set;
 
 
 public class UserTestData {
-    public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator("registered", "roles");
+    public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "registered", "roles");
 
     public static final int CREATED_USER_ID = 5;
-    public static final int USER_ID = 1, ADMIN_ID = 3;
+    public static final int USER_ID = 1, USER_2_ID = 2, ADMIN_ID = 3;
+    public static final String USERNAME = "userName1", ADMIN_USERNAME = "adminName";
     public static final int NOT_FOUND = 0;
     public static final User USER_1 = new User("userName1", "user@email1.com", "userPassword1", Collections.singleton(Role.USER));
     public static final User USER_2 = new User("userName2", "user@email2.com", "userPassword2", Collections.singleton(Role.USER));
@@ -34,7 +35,7 @@ public class UserTestData {
         updated.setId(USER_ID);
         updated.setEmail("update@gmail.com");
         updated.setUsername("UpdatedName");
-        updated.setPassword("newPass");
+        updated.setPassword("updatedPass");
         updated.setRoles(Collections.singleton(Role.ADMIN));
         return updated;
     }

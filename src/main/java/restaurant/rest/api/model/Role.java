@@ -1,9 +1,10 @@
 package restaurant.rest.api.model;
 
 import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
 
 @Getter
-public enum Role {
+public enum Role implements GrantedAuthority {
     ADMIN("ADMIN"),
     USER("USER");
 
@@ -14,4 +15,8 @@ public enum Role {
     }
 
 
+    @Override
+    public String getAuthority() {
+        return "ROLE_" + name();
+    }
 }

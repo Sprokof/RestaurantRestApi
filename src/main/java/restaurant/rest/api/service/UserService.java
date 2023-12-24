@@ -4,6 +4,8 @@ package restaurant.rest.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,12 @@ import java.util.List;
 import static restaurant.rest.api.util.ValidationUtil.*;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
+
 
     public User create(User user){
         Assert.notNull(user, "user must not be null");
@@ -34,6 +38,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User get(int id){
+
         return checkNotFoundWithId(repository.get(id), id);
     }
 
@@ -55,7 +60,7 @@ public class UserService implements UserDetailsService {
     public AuthorizedUser loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.repository.getByUsername(username);
         if(user == null){
-            throw new UsernameNotFoundException("user with username =" + username + " not found");
+            throw new UsernameNotFoundException("user with username " + username + " not found");
         }
         return new AuthorizedUser(user);
     }

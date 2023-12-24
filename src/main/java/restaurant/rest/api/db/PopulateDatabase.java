@@ -23,7 +23,6 @@ public class PopulateDatabase implements CommandLineRunner  {
     private static final Restaurant RESTAURANT_2 = new Restaurant("restaurant2", "restaurant2Description");
     private static final Restaurant RESTAURANT_3 = new Restaurant("restaurant3", "restaurant3Description");
     private static final Menu menu1 = new Menu(new MenuItem("dish1M1", 100), new MenuItem("dish2M1", 110));
-
     private static final Menu menu2 = new Menu(new MenuItem("dish1M2", 120), new MenuItem("dish2M2", 105));
     private static final Menu menu3 = new Menu(new MenuItem("dish1M3", 130), new MenuItem("dish2M3", 150));
     private static final Vote VOTE_1 = new Vote();

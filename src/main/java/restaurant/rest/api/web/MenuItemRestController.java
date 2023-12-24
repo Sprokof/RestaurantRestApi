@@ -47,7 +47,7 @@ public class MenuItemRestController {
         this.service.delete(id, menuId);
     }
 
-    @PostMapping(value = REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MenuItem> createWithLocation(@PathVariable int menuId, @RequestBody MenuItemTo menuItemTo) {
         MenuItem created = this.service.create(menuItemTo.toEntity(), menuId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -56,7 +56,7 @@ public class MenuItemRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = REST_URL + "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable int menuId, @RequestBody MenuItemTo menuItemTo, @PathVariable int id) {
         log.info("update {} with id={}", menuItemTo, id);

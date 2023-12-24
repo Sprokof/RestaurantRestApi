@@ -18,6 +18,7 @@ public class UserTo extends AbstractBaseTo {
     private String email;
     private String password;
     private LocalDateTime registered;
+    private boolean enabled;
     private Set<Role> roles;
 
     @Override
@@ -28,6 +29,8 @@ public class UserTo extends AbstractBaseTo {
         user.setEmail(this.email);
         user.setRoles(this.roles);
         user.setRegistered(this.registered);
+        user.setPassword(this.password);
+        user.setEnabled(this.enabled);
         return user;
     }
 

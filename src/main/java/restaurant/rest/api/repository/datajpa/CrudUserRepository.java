@@ -16,10 +16,10 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Query("DELETE FROM User u WHERE u.id=:id")
     int delete(@Param("id") int id);
     @EntityGraph(attributePaths = "roles")
-    @Query("SELECT u FROM User u WHERE u.email = email")
+    @Query("SELECT u FROM User u WHERE u.email=:email")
     User getByEmail(@Param("email") String email);
     @EntityGraph(attributePaths = "roles")
-    @Query("SELECT u FROM User u WHERE u.email = username")
+    @Query("SELECT u FROM User u WHERE u.username=:username")
     User getByUsername(@Param("username") String username);
 
 

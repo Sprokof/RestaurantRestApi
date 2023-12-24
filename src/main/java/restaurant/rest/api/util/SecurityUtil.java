@@ -33,10 +33,6 @@ public class SecurityUtil {
         return get().getUserTo().id();
     }
 
-    public static Set<GrantedAuthority> authorities(Set<Role> roles){
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole())));
-        return authorities;
-    }
+
 
 }

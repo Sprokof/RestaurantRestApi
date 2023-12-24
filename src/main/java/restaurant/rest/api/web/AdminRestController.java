@@ -62,13 +62,13 @@ public class AdminRestController {
         userService.update(user);
     }
 
-    @GetMapping("/by-email")
+    @GetMapping(value = "/by-email")
     public User getByMail(@RequestParam String email) {
         log.info("get {}", email);
         return userService.getByEmail(email);
     }
 
-    @GetMapping("/by-username")
+    @GetMapping(value = "/by-username")
     public User getByUsername(@RequestParam String username) {
         log.info("get {}", username);
         return userService.getByUsername(username);
