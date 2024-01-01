@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import restaurant.rest.api.model.User;
 import restaurant.rest.api.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -54,5 +55,15 @@ public class DataJpaUserRepository implements UserRepository {
     @Override
     public User getByUsername(String username) {
         return this.repository.getByUsername(username);
+    }
+
+    @Override
+    public User getWithVotes(int id) {
+        return this.repository.getWithVotes(id);
+    }
+
+    @Override
+    public User getWithLastVote(int id) {
+        return this.repository.getWithLastVote(id);
     }
 }

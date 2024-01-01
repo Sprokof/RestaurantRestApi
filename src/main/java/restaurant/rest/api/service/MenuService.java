@@ -1,6 +1,7 @@
 package restaurant.rest.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import restaurant.rest.api.model.Menu;
@@ -42,11 +43,15 @@ public class MenuService {
         return this.repository.getAll(restaurantId);
     }
 
-    public Menu getActualMenu(int restaurantId){
-        return getMenuByDate(LocalDate.now(), restaurantId);
+    public Menu getLast(int restaurantId){
+        return this.repository.getLast(restaurantId);
     }
 
-    public Menu getMenuByDate(LocalDate date, int restaurantId){
-        return this.repository.getMenuByDate(date, restaurantId);
+    public Menu getByDate(LocalDate date, int restaurantId){
+        return this.repository.getByDate(date, restaurantId);
+    }
+
+    public boolean exist(LocalDate date, int restaurantId){
+        return this.repository.exist(date, restaurantId);
     }
 }

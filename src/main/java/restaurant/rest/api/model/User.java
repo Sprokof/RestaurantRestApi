@@ -1,5 +1,6 @@
 package restaurant.rest.api.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.Email;
@@ -11,6 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -88,6 +90,11 @@ public class User extends AbstractBaseEntity {
         this(user.username, user.email, user.password, user.registered, user.roles);
         this.setEnabled(true);
     }
+
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "user")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @Setter
+    private Set<Vote> votes;
 
 
     @Override

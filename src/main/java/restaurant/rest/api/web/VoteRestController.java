@@ -6,16 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import restaurant.rest.api.model.Vote;
 import restaurant.rest.api.service.VoteService;
 import restaurant.rest.api.to.VoteTo;
+import restaurant.rest.api.util.RestaurantUtil;
 import restaurant.rest.api.util.VoteUtil;
 import restaurant.rest.api.util.exception.ResourceNotUpdatedException;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
 import static restaurant.rest.api.util.SecurityUtil.authUserId;
 import static restaurant.rest.api.util.ValidationUtil.assureIdConsistent;
@@ -30,42 +33,28 @@ public class VoteRestController {
     @Autowired
     private VoteService voteService;
 
-    @GetMapping(PROFILE_REST_URL + "/with-restaurant")
-    public List<Vote> getAllWithRestaurant() {
-        log.info("getAll");
-        return voteService.getAllWithRestaurantByUserId(authUserId());
-    }
-
-    @GetMapping(PROFILE_REST_URL)
-    public List<Vote> getAll(){
-        log.info("getAll");
-        return this.voteService.getAll(authUserId());
+    @GetMapping(RESTAURANT_REST_URL + "/{id}")
+    public VoteTo getByRestaurantId(@PathVariable int id, @PathVariable int restaurantId){
+        return VoteUtil.toDtoWithUser(this.voteService.getByRestaurantId(id, restaurantId));
     }
 
     @GetMapping(PROFILE_REST_URL + "/{id}")
-    public Vote get(@PathVariable int id) {
-        log.info("get {}", id);
-        return voteService.get(id, authUserId());
+    public VoteTo getByUserId(@PathVariable int id){
+        return VoteUtil.toDtoWithRestaurant(this.voteService.getByUserId(id, authUserId()));
     }
 
-
-    @GetMapping(PROFILE_REST_URL + "/actual")
-    public Vote getActual() {
-        log.info("getActual");
-        return voteService.getActual(authUserId());
+    @GetMapping(PROFILE_REST_URL)
+    public Set<VoteTo> getAllByUserId(){
+        return VoteUtil.toDtosWithRestaurant(this.voteService.getAllByUserId(authUserId()));
+    }
+    @GetMapping(RESTAURANT_REST_URL)
+    public Set<VoteTo> getAllByRestaurantId(@PathVariable int restaurantId){
+        return VoteUtil.toDtosWithUser(this.voteService.getAllByRestaurantId(restaurantId));
     }
 
-    @GetMapping(PROFILE_REST_URL + "/actual/with-restaurant")
-    public Vote getActualWithRestaurant() {
-        log.info("getActualWithRestaurant");
-        return voteService.getActualWithRestaurantByUserId(authUserId());
-    }
-
-
-    @GetMapping(PROFILE_REST_URL + "/{id}/with-restaurant")
-    public Vote getWithRestaurant(@PathVariable int id) {
-        log.info("get {}", id);
-        return voteService.getWithRestaurant(id, authUserId());
+    @GetMapping(RESTAURANT_REST_URL + "/last")
+    public Set<VoteTo> getAllLastByRestaurantId(@PathVariable int restaurantId){
+        return VoteUtil.toDtosWithUser(this.voteService.getAllLastByRestaurantId(restaurantId));
     }
 
     @DeleteMapping(PROFILE_REST_URL + "/{id}")
@@ -76,18 +65,11 @@ public class VoteRestController {
     }
 
 
-    @GetMapping(RESTAURANT_REST_URL)
-    public List<Vote> getAllActualWithUser(@PathVariable int restaurantId) {
-        log.info("getAll");
-        return voteService.getAllActualWithUserByRestaurantId(restaurantId);
-    }
-
-
     @PostMapping(value = RESTAURANT_REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createWithLocation(@PathVariable int restaurantId, @RequestBody VoteTo voteTo) {
         Vote created = this.voteService.create(voteTo.toEntity(), authUserId(), restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(RESTAURANT_REST_URL + "/{id}")
+                .path(RestaurantUtil.replacePathVariable(RESTAURANT_REST_URL, restaurantId) + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }

@@ -5,16 +5,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import restaurant.rest.api.model.AbstractBaseEntity;
 import restaurant.rest.api.model.Vote;
+import restaurant.rest.api.util.RestaurantUtil;
+import restaurant.rest.api.util.UserUtil;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@NoArgsConstructor
 @Getter
 @Setter
 public class VoteTo extends AbstractBaseTo {
     private LocalDate voteDate;
     private LocalTime voteTime;
+    private UserTo userTo;
+    private RestaurantTo restaurantTo;
+
+    public VoteTo(){
+        this.voteDate = LocalDate.now();
+        this.voteTime = LocalTime.now();
+    }
 
     @Override
     public Vote toEntity() {
@@ -25,11 +33,11 @@ public class VoteTo extends AbstractBaseTo {
         return vote;
     }
 
-    public AbstractBaseTo toDto(AbstractBaseEntity entity) {
-        Vote vote = (Vote) entity;
-        this.setId(vote.getId());
-        this.setVoteDate(vote.getVoteDate());
-        this.setVoteTime(vote.getVoteTime());
-        return this;
+    @Override
+    public String toString() {
+        return "VoteTo{" +
+                "id=" + getId() + ", " +
+                "voteDate=" + voteDate +
+                ", voteTime=" + voteTime ;
     }
 }

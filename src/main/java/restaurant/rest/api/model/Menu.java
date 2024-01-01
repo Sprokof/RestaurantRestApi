@@ -56,6 +56,8 @@ public class Menu extends AbstractBaseEntity {
         this.time = LocalTime.now();
     }
 
+
+
     public Menu(Menu menu){
         this.setDate(menu.date);
         this.setTime(menu.time);

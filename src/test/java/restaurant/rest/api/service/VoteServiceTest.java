@@ -30,20 +30,20 @@ public class VoteServiceTest {
         Vote newVote = getNew();
         newVote.setId(newId);
         VOTE_MATCHER.assertMatch(created, newVote);
-        VOTE_MATCHER.assertMatch(service.get(newId, USER_ID), service.getWithRestaurant(newId, USER_ID));
+        VOTE_MATCHER.assertMatch(service.getByUserId(newId, USER_ID), service.getByRestaurantId(newId, RESTAURANT_ID));
     }
 
     @Test
     void delete(){
         service.delete(CREATED_VOTE_ID, USER_ID);
-        assertThrows(NotFoundException.class, () -> service.get(CREATED_VOTE_ID, USER_ID));
+        assertThrows(NotFoundException.class, () -> service.getByUserId(CREATED_VOTE_ID, USER_ID));
     }
 
     @Test
     void update(){
         Vote updated = getUpdated();
         service.update(updated, USER_ID + 1, RESTAURANT_ID + 1);
-        VOTE_MATCHER.assertMatch(service.get(VOTE_ID + 1, USER_ID + 1), getUpdated());
+        VOTE_MATCHER.assertMatch(service.getByUserId(VOTE_ID + 1, USER_ID + 1), getUpdated());
     }
 
     @Test
@@ -52,33 +52,31 @@ public class VoteServiceTest {
     }
 
     @Test
-    void get() {
-        Vote vote = service.get(VOTE_ID, USER_ID);
+    void getByUserId() {
+        Vote vote = service.getByUserId(VOTE_ID, USER_ID);
         VOTE_MATCHER.assertMatch(vote, VOTE_1);
     }
 
     @Test
-    void getWithRestaurant() {
-        Vote vote = service.getWithRestaurant(VOTE_ID, USER_ID);
+    void getByRestaurantId() {
+        Vote vote = service.getByRestaurantId(VOTE_ID, RESTAURANT_ID);
         VOTE_MATCHER.assertMatch(vote, VOTE_1);
         RESTAURANT_MATCHER.assertMatch(vote.getRestaurant(), RESTAURANT_1);
     }
-
-
     @Test
     void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND, USER_ID));
+        assertThrows(NotFoundException.class, () -> service.getByUserId(NOT_FOUND, USER_ID));
     }
 
     @Test
     void getAllByRestaurantId(){
-        List<Vote> all = service.getAllWithUserByRestaurantId(RESTAURANT_ID);
+        List<Vote> all = service.getAllByRestaurantId(RESTAURANT_ID);
         VOTE_MATCHER.assertMatch(all, List.of(VOTE_1));
     }
 
     @Test
     void getAllByUserId(){
-        List<Vote> all = service.getAllWithRestaurantByUserId(USER_ID + 1);
+        List<Vote> all = service.getAllByUserId(USER_ID + 1);
         VOTE_MATCHER.assertMatch(all, List.of(VOTE_2));
     }
 

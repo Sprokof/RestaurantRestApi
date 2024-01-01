@@ -23,7 +23,7 @@ import static restaurant.rest.api.data.UserTestData.*;
 import static restaurant.rest.api.web.ProfileRestController.REST_URL;
 
 
-@WithUserDetails(USERNAME)
+@WithUserDetails(USER_NAME)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProfileRestControllerTest extends AbstractRestControllerTest {
 
@@ -40,7 +40,6 @@ public class ProfileRestControllerTest extends AbstractRestControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(USER_MATCHER.contentJson(USER_1));
     }
-
 
 
     @Test

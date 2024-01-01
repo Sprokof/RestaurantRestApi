@@ -33,38 +33,40 @@ public class MenuServiceTest {
     }
 
     @Test
-    public void delete(){
+    void delete(){
         service.delete(CREATED_MENU_ID, RESTAURANT_ID);
         assertThrows(NotFoundException.class, () -> service.get(CREATED_MENU_ID, RESTAURANT_ID));
     }
 
     @Test
-    public void getAll(){
+    void getAll(){
         List<Menu> all = service.getAll(RESTAURANT_ID);
         MENU_MATCHER.assertMatch(all, List.of(MENU_1));
     }
 
 
     @Test
-    public void get() {
+    void get() {
         Menu menu = service.get(MENU_ID, RESTAURANT_ID);
         MENU_MATCHER.assertMatch(menu, MENU_1);
     }
 
 
+
     @Test
-    public void getNotFound(){
+    void getNotFound(){
         assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND, RESTAURANT_ID));
     }
 
-    public void deleteNotFound(){
+    @Test
+    void deleteNotFound(){
         assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND, RESTAURANT_ID));
 
     }
     @Test
-    public void getActualMenu(){
-        Menu actual = service.getActualMenu(RESTAURANT_ID  + 1);
-        MENU_MATCHER.assertMatch(actual, MENU_2);
+    void getLast(){
+        Menu actual = service.getLast(RESTAURANT_ID);
+        MENU_MATCHER.assertMatch(actual, MENU_1);
     }
 
 }

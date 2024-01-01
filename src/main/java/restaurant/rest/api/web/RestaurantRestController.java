@@ -43,10 +43,21 @@ public class RestaurantRestController {
         return RestaurantUtil.toDtos(this.service.getAllByName(name), service);
     }
 
+    @GetMapping(REST_URL + "/{id}/with-votes")
+    public RestaurantTo getWithVotes(@PathVariable  int id){
+        return RestaurantUtil.toDtoWithVotes(this.service.getWithVotes(id), service.getVotesCount(id));
+    }
+
+    @GetMapping(REST_URL + "/{id}/with-last-votes")
+    public RestaurantTo getWithLastVotes(@PathVariable int id){
+        return RestaurantUtil.toDtoWithVotes(this.service.getWithVotes(id), service.getVotesCount(id));
+    }
+
+
     @GetMapping(REST_URL + "/{id}/with-menu")
     public RestaurantTo getWithMenu(@PathVariable int id) {
         log.info("get {}", id);
-        return RestaurantUtil.toDto(service.getWithMenu(id), service.getVotesCount(id));
+        return RestaurantUtil.toDtoWithMenus(service.getWithMenu(id), service.getVotesCount(id));
     }
 
     @GetMapping(REST_URL + "/{id}")
@@ -58,7 +69,7 @@ public class RestaurantRestController {
     @GetMapping(REST_URL + "/with-menu/by-date")
     public List<RestaurantTo> getAllWithMenuByDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         log.info("getAllWithMenuDyDate {}", date);
-        return RestaurantUtil.toDtos(service.getAllWithMenuByDate(date), service);
+        return RestaurantUtil.toDtosWithMenus(service.getAllWithMenuByDate(date), service);
     }
 
     @GetMapping(REST_URL + "/top")
@@ -75,8 +86,8 @@ public class RestaurantRestController {
     }
 
     @PostMapping(value = REST_ADMIN_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
-        Restaurant created = this.service.create(restaurant);
+    public ResponseEntity<Restaurant> createWithLocation(@RequestBody RestaurantTo restaurantTo) {
+        Restaurant created = this.service.create(restaurantTo.toEntity());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();

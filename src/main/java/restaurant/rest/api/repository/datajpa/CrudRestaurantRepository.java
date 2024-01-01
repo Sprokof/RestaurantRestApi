@@ -1,5 +1,6 @@
 package restaurant.rest.api.repository.datajpa;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,8 +18,8 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT r FROM Restaurant r LEFT JOIN FETCH r.menus m WHERE ((m is null OR m.date=:date) OR m.id = (SELECT max(m.id) FROM Menu m WHERE m.restaurantId=:id)) AND r.id=:id")
-    Restaurant getWithMenuByDate(@Param("date") LocalDate date, @Param("id") int id);
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE (m is null OR m.id = (SELECT max(m.id) FROM Menu m WHERE m.restaurantId=:id)) AND r.id=:id")
+    Restaurant getWithMenu(@Param("id") int id);
 
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.date=:date ORDER BY r.name DESC")
     List<Restaurant> getAllWithMenuByDate(@Param("date") LocalDate date);
@@ -30,6 +31,11 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
 
     @Query("SELECT r FROM Restaurant r, Vote v WHERE r.id=v.restaurant.id AND v.voteDate=:date GROUP BY r ORDER BY COUNT(v.id) DESC")
     List<Restaurant> getTopByDate(@Param("date") LocalDate date);
+    @EntityGraph(attributePaths = "votes")
+    @Query("SELECT r FROM Restaurant r WHERE r.id=:id")
+    Restaurant getWithVotes(@Param("id") int id);
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.votes v WHERE v.voteDate = (SELECT max(v.voteDate) FROM Vote v WHERE v.restaurant.id=:id) AND r.id=:id")
+    Restaurant getWithLastVotes(@Param("id") int id);
 
 
 }

@@ -1,9 +1,10 @@
 package restaurant.rest.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.*;
 
 import jakarta.persistence.*;
 
@@ -36,15 +37,17 @@ public class Vote extends AbstractBaseEntity {
 
     @Setter
     @JoinColumn(name = "user_id")
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private User user;
 
 
     @Setter
     @JoinColumn(name = "restaurant_id")
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private Restaurant restaurant;
 
     @Override

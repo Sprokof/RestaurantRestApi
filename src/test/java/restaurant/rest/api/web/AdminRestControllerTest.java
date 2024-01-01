@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import restaurant.rest.api.json.JsonUtil;
 import restaurant.rest.api.model.User;
 import restaurant.rest.api.service.UserService;
+import restaurant.rest.api.to.UserTo;
+import restaurant.rest.api.util.UserUtil;
 import restaurant.rest.api.util.exception.NotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static restaurant.rest.api.data.UserTestData.*;
 
-@WithUserDetails(value = ADMIN_USERNAME)
+@WithUserDetails(value = ADMIN_NAME)
 public class AdminRestControllerTest extends AbstractRestControllerTest {
 
     static String REST_URL = AdminRestController.REST_URL;
@@ -33,15 +35,34 @@ public class AdminRestControllerTest extends AbstractRestControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(ADMIN));
+                .andExpect(USER_TO_MATCHER.contentJson(UserUtil.toDto(ADMIN)));
     }
+
+    @Test
+    void getWithVotes() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "/" + ADMIN_ID + "/with-votes"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(USER_TO_MATCHER.contentJson(UserUtil.toDtoWithVotes(ADMIN)));
+    }
+
+    @Test
+    void getWithLastVote() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "/" + ADMIN_ID + "/with-last-vote"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(USER_TO_MATCHER.contentJson(UserUtil.toDtoWithVotes(ADMIN)));
+    }
+
 
     @Test
     void getByEmail() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "/by-email?email=" + ADMIN.getEmail()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(ADMIN));
+                .andExpect(USER_TO_MATCHER.contentJson(UserUtil.toDto(ADMIN)));
     }
 
     @Test
@@ -49,7 +70,7 @@ public class AdminRestControllerTest extends AbstractRestControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + "/by-username?username=" + ADMIN.getUsername()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(ADMIN));
+                .andExpect(USER_TO_MATCHER.contentJson(UserUtil.toDto(ADMIN)));
     }
 
     @Test
@@ -69,28 +90,28 @@ public class AdminRestControllerTest extends AbstractRestControllerTest {
 
     @Test
     void update() throws Exception {
-        User updated = getUpdated();
+        UserTo updated = getUpdatedTo();
         perform(MockMvcRequestBuilders.put(REST_URL + "/" + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isNoContent());
 
-        USER_MATCHER.assertMatch(userService.get(USER_ID), updated);
+        USER_TO_MATCHER.assertMatch(UserUtil.toDto(userService.get(USER_ID)), updated);
     }
 
     @Test
     void createWithLocation() throws Exception {
-        User newUser = getNew();
+        UserTo newUser = getNewTo();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newUser)))
                 .andExpect(status().isCreated());
 
-        User created = USER_MATCHER.readFromJson(action);
+        UserTo created = USER_TO_MATCHER.readFromJson(action);
         int newId = created.id();
         newUser.setId(newId);
-        USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(userService.get(newId), newUser);
+        USER_TO_MATCHER.assertMatch(created, newUser);
+        USER_TO_MATCHER.assertMatch(UserUtil.toDto(userService.get(newId)), newUser);
     }
 
     @Test
@@ -98,7 +119,10 @@ public class AdminRestControllerTest extends AbstractRestControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(userService.getAll()));
+                .andExpect(USER_TO_MATCHER.contentJson(UserUtil.toDtos(userService.getAll())));
     }
+
+
+
 
 }

@@ -12,8 +12,11 @@ public interface RestaurantRepository {
     List<Restaurant> getAllByName(String name);
     List<Restaurant> getAll();
     List<Restaurant> getAllWithMenuByDate(LocalDate date);
-    Restaurant getWithMenuByDate(LocalDate date, int id);
+    Restaurant getWithMenu(int id);
     List<Restaurant> getTopByDate(LocalDate date);
     int getVotesCount(int id, LocalDate date);
+    Restaurant getWithVotes(int id);
+    Restaurant getWithLastVotes(int id);
+
 
 }

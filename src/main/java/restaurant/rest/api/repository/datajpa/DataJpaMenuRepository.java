@@ -1,6 +1,7 @@
 package restaurant.rest.api.repository.datajpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import restaurant.rest.api.model.Menu;
@@ -46,8 +47,18 @@ public class DataJpaMenuRepository implements MenuRepository {
     }
 
     @Override
-    public Menu getMenuByDate(LocalDate date, int restaurantId) {
-        return this.menuRepository.getMenuByDate(date, restaurantId);
+    public Menu getByDate(LocalDate date, int restaurantId) {
+        return this.menuRepository.getByDate(date, restaurantId);
+    }
+
+    @Override
+    public Menu getLast(int restaurantId) {
+        return this.menuRepository.getLast(restaurantId);
+    }
+
+    @Override
+    public boolean exist(LocalDate date, int restaurantId) {
+        return this.menuRepository.exist(date, restaurantId) != 0;
     }
 }
 

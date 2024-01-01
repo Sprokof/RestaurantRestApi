@@ -17,6 +17,7 @@ import restaurant.rest.api.repository.UserRepository;
 import java.util.List;
 
 import static restaurant.rest.api.util.ValidationUtil.*;
+import static restaurant.rest.api.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -38,7 +39,6 @@ public class UserService implements UserDetailsService {
     }
 
     public User get(int id){
-
         return checkNotFoundWithId(repository.get(id), id);
     }
 
@@ -69,4 +69,11 @@ public class UserService implements UserDetailsService {
         return this.repository.getByUsername(username);
     }
 
+    public User getWithVotes(int id){
+        return checkNotFoundWithId(this.repository.getWithVotes(id), id);
+    }
+    public User getWithLastVote(int id){
+        return checkNotFoundWithId(this.repository.getWithLastVote(id), id);
+
+    }
 }

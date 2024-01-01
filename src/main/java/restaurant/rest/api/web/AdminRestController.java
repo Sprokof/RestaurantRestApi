@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import restaurant.rest.api.model.User;
 import restaurant.rest.api.service.UserService;
 import restaurant.rest.api.to.UserTo;
+import restaurant.rest.api.util.UserUtil;
 
 
 import java.net.URI;
@@ -27,24 +28,35 @@ public class AdminRestController {
     private UserService userService;
 
     @GetMapping
-    public List<User> getAll() {
+    public List<UserTo> getAll() {
         log.info("getAll");
-        return userService.getAll();
+        return UserUtil.toDtos(userService.getAll());
     }
 
     @GetMapping("/{id}")
-    public User get(@PathVariable int id) {
+    public UserTo get(@PathVariable int id) {
         log.info("get {}", id);
-        return userService.get(id);
+        return UserUtil.toDtoWithVotes(userService.get(id));
+    }
+
+    @GetMapping("/{id}/with-votes")
+    public UserTo getWithVotes(@PathVariable int id){
+        log.info("get {}", id);
+        return UserUtil.toDtoWithVotes(userService.getWithVotes(id));
+    }
+    @GetMapping("/{id}/with-last-vote")
+    public UserTo getWithLastVote(@PathVariable int id) {
+        log.info("get {}", id);
+        return UserUtil.toDtoWithVotes(userService.getWithLastVote(id));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createWithLocation(@RequestBody UserTo userTo) {
+    public ResponseEntity<UserTo> createWithLocation(@RequestBody UserTo userTo) {
         User created = this.userService.create(userTo.toEntity());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
+        return ResponseEntity.created(uriOfNewResource).body(UserUtil.toDto(created));
     }
 
     @DeleteMapping("/{id}")
@@ -63,14 +75,14 @@ public class AdminRestController {
     }
 
     @GetMapping(value = "/by-email")
-    public User getByMail(@RequestParam String email) {
+    public UserTo getByMail(@RequestParam String email) {
         log.info("get {}", email);
-        return userService.getByEmail(email);
+        return UserUtil.toDto(userService.getByEmail(email));
     }
 
     @GetMapping(value = "/by-username")
-    public User getByUsername(@RequestParam String username) {
+    public UserTo getByUsername(@RequestParam String username) {
         log.info("get {}", username);
-        return userService.getByUsername(username);
+        return UserUtil.toDto(userService.getByUsername(username));
     }
 }

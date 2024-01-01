@@ -22,9 +22,14 @@ public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
     @Query("SELECT m FROM Menu m WHERE m.restaurantId=:r_id")
     @EntityGraph(attributePaths = "menuItems", type = EntityGraph.EntityGraphType.LOAD)
     List<Menu> getAll(@Param("r_id") int restaurantId);
-    @Query("SELECT m FROM Menu m WHERE (m.date=:date OR m.id = (SELECT max(id) FROM Menu m WHERE m.restaurantId=:r_id)) AND m.restaurantId=:r_id")
+    @Query("SELECT m FROM Menu m WHERE (m.date=:date OR m.id = (SELECT max(m.id) FROM Menu m WHERE m.restaurantId=:r_id)) AND m.restaurantId=:r_id")
     @EntityGraph(attributePaths = "menuItems", type = EntityGraph.EntityGraphType.LOAD)
-    Menu getMenuByDate(@Param("date") LocalDate date, @Param("r_id") int restaurantId);
+    Menu getByDate(@Param("date") LocalDate date, @Param("r_id") int restaurantId);
+    @Query("SELECT m FROM Menu m WHERE m.id = (SELECT max(m.id) FROM Menu m WHERE m.restaurantId=:r_id) AND m.restaurantId=:r_id")
+    Menu getLast(@Param("r_id") int restaurantId);
+    @Query("SELECT COUNT(m) FROM Menu m WHERE m.date=:date AND m.restaurantId=:r_id")
+    int exist(@Param("date") LocalDate date, @Param("r_id") int restaurantId);
+
 
 
 

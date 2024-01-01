@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import restaurant.rest.api.model.User;
 import restaurant.rest.api.service.UserService;
 import restaurant.rest.api.to.UserTo;
+import restaurant.rest.api.util.UserUtil;
 
 import static restaurant.rest.api.util.SecurityUtil.authUserId;
 import static restaurant.rest.api.util.ValidationUtil.assureIdConsistent;
@@ -39,13 +40,24 @@ public class ProfileRestController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody UserTo userTo) {
-        User user = userTo.toEntity();
+    public void update(@RequestBody User user) {
         log.info("update {} with id={}", user, authUserId());
         assureIdConsistent(user, authUserId());
         userService.update(user);
     }
 
+
+    @GetMapping("/with-votes")
+    public UserTo getWithVotes(){
+        log.info("getWithVotes");
+        return UserUtil.toDtoWithVotes(userService.getWithVotes(authUserId()));
+    }
+
+    @GetMapping("/with-last-vote")
+    public UserTo getWithLastVote() {
+        log.info("getWithLastVote");
+        return UserUtil.toDtoWithVotes(userService.getWithLastVote(authUserId()));
+    }
 
 
 }

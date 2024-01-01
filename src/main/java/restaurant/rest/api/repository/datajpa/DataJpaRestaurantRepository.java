@@ -1,6 +1,7 @@
 package restaurant.rest.api.repository.datajpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import restaurant.rest.api.model.Restaurant;
@@ -12,6 +13,8 @@ import java.util.List;
 @Repository
 @Transactional
 public class DataJpaRestaurantRepository implements RestaurantRepository  {
+    private static final Sort SORT_NAME = Sort.by(Sort.Direction.DESC, "name");
+
 
     private final CrudRestaurantRepository repository;
 
@@ -38,7 +41,7 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
 
     @Override
     public List<Restaurant> getAll() {
-        return this.repository.findAll();
+        return this.repository.findAll(SORT_NAME);
     }
 
     @Override
@@ -52,8 +55,8 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
     }
 
     @Override
-    public Restaurant getWithMenuByDate(LocalDate date, int id) {
-        return this.repository.getWithMenuByDate(date, id);
+    public Restaurant getWithMenu(int id) {
+        return this.repository.getWithMenu(id);
     }
 
     @Override
@@ -65,4 +68,16 @@ public class DataJpaRestaurantRepository implements RestaurantRepository  {
     public List<Restaurant> getTopByDate(LocalDate date) {
         return this.repository.getTopByDate(date);
     }
+
+    @Override
+    public Restaurant getWithVotes(int id) {
+        return this.repository.getWithVotes(id);
+    }
+
+    @Override
+    public Restaurant getWithLastVotes(int id) {
+        return this.repository.getWithLastVotes(id);
+    }
 }
+
+

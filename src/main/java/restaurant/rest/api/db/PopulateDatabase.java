@@ -22,9 +22,12 @@ public class PopulateDatabase implements CommandLineRunner  {
     private static final Restaurant RESTAURANT_1 = new Restaurant("restaurant1", "restaurant1Description");
     private static final Restaurant RESTAURANT_2 = new Restaurant("restaurant2", "restaurant2Description");
     private static final Restaurant RESTAURANT_3 = new Restaurant("restaurant3", "restaurant3Description");
+    private static final Restaurant RESTAURANT_4 = new Restaurant("restaurant4", "restaurant4Description");
+
     private static final Menu menu1 = new Menu(new MenuItem("dish1M1", 100), new MenuItem("dish2M1", 110));
     private static final Menu menu2 = new Menu(new MenuItem("dish1M2", 120), new MenuItem("dish2M2", 105));
     private static final Menu menu3 = new Menu(new MenuItem("dish1M3", 130), new MenuItem("dish2M3", 150));
+
     private static final Vote VOTE_1 = new Vote();
     private static final Vote VOTE_2 = new Vote();
     private static final Vote VOTE_3 = new Vote();
@@ -35,6 +38,7 @@ public class PopulateDatabase implements CommandLineRunner  {
         RESTAURANT_1.addMenu(menu1);
         RESTAURANT_2.addMenu(menu2);
         RESTAURANT_3.addMenu(menu3);
+
 
     }
 
@@ -58,6 +62,7 @@ public class PopulateDatabase implements CommandLineRunner  {
         restaurantService.create(RESTAURANT_1);
         restaurantService.create(RESTAURANT_2);
         restaurantService.create(RESTAURANT_3);
+        restaurantService.create(RESTAURANT_4);
     }
 
     public void insertVotes(){

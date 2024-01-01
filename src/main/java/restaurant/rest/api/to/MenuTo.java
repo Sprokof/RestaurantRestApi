@@ -19,19 +19,20 @@ import java.util.stream.Collectors;
 public class MenuTo extends AbstractBaseTo {
     private LocalDate date;
     private LocalTime time;
-    private List<MenuItemTo> items;
+    private List<MenuItemTo> menuItemTos;
 
     @Override
     public Menu toEntity() {
         Menu menu = new Menu();
         menu.setId(this.getId());
         menu.setDate(this.date);
+        menu.setTime(this.time);
         menu.setMenuItems(convertToEntity());
-        return null;
+        return menu;
     }
 
     private List<MenuItem> convertToEntity(){
-        return this.items.stream()
+        return this.menuItemTos.stream()
                 .map(i -> (MenuItem) i.toEntity())
                 .collect(Collectors.toList());
     }

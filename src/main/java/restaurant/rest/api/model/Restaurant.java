@@ -1,6 +1,7 @@
 package restaurant.rest.api.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "restaurant")
@@ -22,6 +24,7 @@ public class Restaurant extends AbstractBaseEntity {
     @Setter
     @Size(min = 20, max = 200)
     @NotBlank
+
     private String description;
 
     @Column(name = "restaurant_name", nullable = false)
@@ -29,7 +32,6 @@ public class Restaurant extends AbstractBaseEntity {
     @Size(min = 10, max = 20)
     @NotBlank
     private String name;
-
 
     public Restaurant(){}
 
@@ -43,7 +45,7 @@ public class Restaurant extends AbstractBaseEntity {
         this.setMenus(restaurant.menus);
     }
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @Setter
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "restaurant_id")
@@ -54,6 +56,11 @@ public class Restaurant extends AbstractBaseEntity {
         if(this.menus == null) this.menus = new ArrayList<>();
         this.menus.add(menu);
     }
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "restaurant")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @Setter
+    private Set<Vote> votes;
 
     @Override
     public String toString() {

@@ -12,6 +12,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import restaurant.rest.api.model.Menu;
 import restaurant.rest.api.service.MenuService;
 import restaurant.rest.api.to.MenuTo;
+import restaurant.rest.api.util.MenuUtil;
+import restaurant.rest.api.util.RestaurantUtil;
+import restaurant.rest.api.util.exception.ResourceNotCreatedException;
 
 
 import java.net.URI;
@@ -33,15 +36,15 @@ public class MenuRestController {
 
 
     @GetMapping(REST_ADMIN_URL)
-    public List<Menu> getAll(@PathVariable int restaurantId){
+    public List<MenuTo> getAll(@PathVariable int restaurantId){
         log.info("getAll");
-        return service.getAll(restaurantId);
+        return MenuUtil.toDtos(service.getAll(restaurantId));
     }
 
     @GetMapping(REST_ADMIN_URL + "/{id}")
-    public Menu get(@PathVariable int restaurantId, @PathVariable int id){
-        log.info("getAll {}", id);
-        return service.get(id, restaurantId);
+    public MenuTo get(@PathVariable int restaurantId, @PathVariable int id){
+        log.info("get {}", id);
+        return MenuUtil.toDto(service.get(id, restaurantId));
     }
 
     @DeleteMapping(REST_ADMIN_URL + "/{id}")
@@ -51,34 +54,37 @@ public class MenuRestController {
     }
 
     @GetMapping(REST_ADMIN_URL + "/by-date")
-    public Menu getMenuByDate(@PathVariable int restaurantId, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+    public MenuTo getByDate(@PathVariable int restaurantId, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
         log.info("getByDate {}", date);
-        return service.getMenuByDate(date, restaurantId);
+        return MenuUtil.toDto(service.getByDate(date, restaurantId));
     }
 
     @PostMapping(value = REST_ADMIN_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Menu> createWithLocation(@PathVariable int restaurantId, @RequestBody MenuTo menuTo) {
-        Menu created = this.service.create(menuTo.toEntity(), restaurantId);
+    public ResponseEntity<MenuTo> createWithLocation(@PathVariable int restaurantId, @RequestBody Menu menu) {
+        if(service.exist(menu.getDate(), restaurantId)){
+            throw new ResourceNotCreatedException("Resource can not be created");
+        }
+        Menu created = this.service.create(menu, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path(RestaurantUtil.replacePathVariable(REST_ADMIN_URL, restaurantId) + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
+        return ResponseEntity.created(uriOfNewResource).body(MenuUtil.toDto(created));
     }
 
     @PutMapping(value = REST_ADMIN_URL + "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable int restaurantId, @RequestBody MenuTo menuTo, @PathVariable int id) {
-        log.info("update {} with id={}", menuTo, id);
         Menu menu = menuTo.toEntity();
+        log.info("update {} with id={}", menu, id);
         assureIdConsistent(menu, id);
         this.service.update(menu, restaurantId);
     }
 
 
     @GetMapping(REST_URL)
-    public Menu getActualMenu(@PathVariable int restaurantId){
-        log.info("getActualMenu {}", restaurantId);
-        return service.getActualMenu(restaurantId);
+    public MenuTo getLast(@PathVariable int restaurantId){
+        log.info("getLast {}", restaurantId);
+        return MenuUtil.toDto(service.getLast(restaurantId));
     }
 
 

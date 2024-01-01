@@ -27,50 +27,29 @@ public class VoteService {
     public void update(Vote vote, int userId, int restaurantId){
         Assert.notNull(vote, "vote must not be null");
         checkNotFound(repository.save(vote, userId, restaurantId),
-                "userId=" + userId + ", restaurantId" + restaurantId);
+                "userId=" + userId + ", restaurantId=" + restaurantId);
     }
 
     public void delete(int id, int userId){
         checkNotFound(repository.delete(id, userId),
-                "id=" + id  + ", userId=" + userId + ", restaurantId");
+                "id=" + id  + ", userId=" + userId);
     }
-
-    public Vote getWithRestaurant(int id, int userId){
-        return checkNotFound(repository.getWithRestaurant(id, userId),
-                "id=" + id  + ", userId" + userId);
+    public Vote getByRestaurantId(int id, int restaurantId){
+        return checkNotFound(this.repository.getByUserId(id, restaurantId),
+                "id=" + id  + ", restaurantId=" + restaurantId);
     }
+    public Vote getByUserId(int id, int userId){
+        return checkNotFound(this.repository.getByUserId(id, userId),
+                "id=" + id  + ", userId=" + userId);
 
-    public Vote getActualWithRestaurantByUserId(int userId) {
-        return this.repository.getWithRestaurantByUserIdAndDate(LocalDate.now(), userId);
     }
-
-    public Vote get(int id, int userId) {
-        return this.repository.get(id, userId);
+    public List<Vote> getAllByUserId(int userId){
+        return this.repository.getAllByUserId(userId);
     }
-
-    public List<Vote> getAllWithRestaurantByUserId(int userId) {
-        return this.repository.getAllWithRestaurantByUserId(userId);
+    public List<Vote> getAllByRestaurantId(int restaurantId){
+        return this.repository.getAllByRestaurantId(restaurantId);
     }
-
-    public List<Vote> getAllWithUserByRestaurantId(int restaurantId) {
-        return this.repository.getAllWithUserByRestaurantId(restaurantId);
+    public List<Vote> getAllLastByRestaurantId(int restaurantId){
+        return this.repository.getAllLastByRestaurantId(restaurantId);
     }
-
-    public List<Vote> getAllActualWithUserByRestaurantId(int restaurantId) {
-        return this.repository.getWithUserByRestaurantIdAndDate(LocalDate.now(), restaurantId);
-    }
-
-    public List<Vote> getAll(int userId) {
-        return this.repository.getAll(userId);
-    }
-
-    public Vote getActual(int userId){
-        return this.repository.getByUserIdAndDate(LocalDate.now(), userId);
-    }
-
-
-    public int getActualVotesCount(int restaurantId){
-        return this.repository.getVotesCount(LocalDate.now(), restaurantId);
-    }
-
 }

@@ -56,7 +56,7 @@ public class RestaurantService {
     }
 
     public Restaurant getWithMenu(int id) {
-        return checkNotFoundWithId(this.repository.getWithMenuByDate(LocalDate.now(), id), id);
+        return checkNotFoundWithId(this.repository.getWithMenu(id), id);
     }
 
     @Cacheable("restaurants")
@@ -75,6 +75,14 @@ public class RestaurantService {
 
     public List<Restaurant> getActualTop(int top) {
         return getTopByDate(LocalDate.now(), top);
+    }
+
+    public Restaurant getWithVotes(int id){
+        return checkNotFoundWithId(this.repository.getWithVotes(id), id);
+    }
+    public Restaurant getWithLastVotes(int id){
+        return checkNotFoundWithId(this.repository.getWithLastVotes(id), id);
+
     }
 
 }
