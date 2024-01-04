@@ -43,7 +43,9 @@ public class VoteTestData {
     }
 
     public static VoteTo getUpdatedTo(){
-        return VoteUtil.toDto(getUpdated());
+        VoteTo to = VoteUtil.toDto(getUpdated());
+        to.setVoteTime(LocalTime.of(10, 0));
+        return to;
     }
 
 

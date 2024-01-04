@@ -1,5 +1,6 @@
 package restaurant.rest.api.to;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import restaurant.rest.api.model.MenuItem;
 @Getter
 @Setter
 @NoArgsConstructor
+@Schema(description = "Сущность пункта в меню")
 public class MenuItemTo extends AbstractBaseTo {
     private String dish;
     private double price;

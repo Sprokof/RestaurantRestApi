@@ -1,5 +1,6 @@
 package restaurant.rest.api.to;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
+@Schema(description = "Сущность ресторана")
 public class RestaurantTo extends AbstractBaseTo {
     private String name;
     private String description;

@@ -1,5 +1,6 @@
 package restaurant.rest.api.to;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,18 +17,19 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
+@Schema(description = "Сущность меню")
 public class MenuTo extends AbstractBaseTo {
     private LocalDate date;
     private LocalTime time;
+    @Schema(description = "Список пунктов в меню")
     private List<MenuItemTo> menuItemTos;
 
     @Override
     public Menu toEntity() {
         Menu menu = new Menu();
         menu.setId(this.getId());
-        menu.setDate(this.date);
-        menu.setTime(this.time);
         menu.setMenuItems(convertToEntity());
+        if(this.date != null) menu.setDate(this.date);
         return menu;
     }
 

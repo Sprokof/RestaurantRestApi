@@ -1,5 +1,6 @@
 package restaurant.rest.api.to;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,12 +17,13 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
+@Schema(description = "Сущность пользователя")
 public class UserTo extends AbstractBaseTo {
     private String username;
     private String email;
     private String password;
-    private LocalDateTime registered;
     private boolean enabled;
+    private LocalDateTime registered;
     private Set<Role> roles;
     private Set<VoteTo> votes;
 
@@ -32,7 +34,6 @@ public class UserTo extends AbstractBaseTo {
         user.setUsername(this.username);
         user.setEmail(this.email);
         user.setRoles(this.roles);
-        user.setRegistered(this.registered);
         user.setPassword(this.password);
         user.setEnabled(this.enabled);
         user.setVotes(convertToEntity());

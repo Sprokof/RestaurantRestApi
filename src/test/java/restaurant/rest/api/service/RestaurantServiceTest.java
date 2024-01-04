@@ -90,4 +90,6 @@ public class RestaurantServiceTest {
         List<Restaurant> top = this.service.getTopByDate(LocalDate.now(), TOP);
         RESTAURANT_MATCHER.assertMatch(top, RESTAURANT_2, RESTAURANT_1);
     }
+
+
 }

@@ -49,9 +49,9 @@ public class RestaurantRestControllerTest extends AbstractRestControllerTest {
 
     @Test
     @Order(2)
-    @WithUserDetails(USER_NAME)
+    @WithUserDetails(ADMIN_NAME)
     void getWithVotes() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "/" + RESTAURANT_ID + "/with-votes"))
+        perform(MockMvcRequestBuilders.get(REST_ADMIN_URL + "/" + RESTAURANT_ID + "/with-votes"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

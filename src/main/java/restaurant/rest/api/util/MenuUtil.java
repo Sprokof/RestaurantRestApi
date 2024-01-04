@@ -36,5 +36,9 @@ public class MenuUtil {
                 .collect(Collectors.toList());
     }
 
+    public static String replacePathVariable(String url, int menuId){
+        return url.replaceAll("(\\{menuId})", String.valueOf(menuId));
+    }
+
 
 }

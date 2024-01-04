@@ -11,6 +11,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import restaurant.rest.api.model.MenuItem;
 import restaurant.rest.api.service.MenuItemService;
 import restaurant.rest.api.to.MenuItemTo;
+import restaurant.rest.api.util.MenuItemUtil;
+import restaurant.rest.api.util.MenuUtil;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.net.URI;
 import java.util.Set;
@@ -19,6 +22,7 @@ import static restaurant.rest.api.util.ValidationUtil.assureIdConsistent;
 
 @RestController
 @RequestMapping(value = MenuItemRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@SecurityRequirement(name = "basicAuth")
 public class MenuItemRestController {
     static final String REST_URL = "/rest/admin/menu{menuId}/menu-items";
 
@@ -29,15 +33,15 @@ public class MenuItemRestController {
     private MenuItemService service;
 
     @GetMapping("/{id}")
-    public MenuItem get(@PathVariable int menuId, @PathVariable int id){
+    public MenuItemTo get(@PathVariable int menuId, @PathVariable int id){
         log.info("get {}", id);
-        return this.service.get(id, menuId);
+        return MenuItemUtil.toDto(this.service.get(id, menuId));
     }
 
     @GetMapping()
-    public Set<MenuItem> getAll(@PathVariable int menuId){
+    public Set<MenuItemTo> getAll(@PathVariable int menuId){
         log.info("getAll");
-        return this.service.getAll(menuId);
+        return MenuItemUtil.toDtos(this.service.getAll(menuId));
     }
 
     @DeleteMapping("/{id}")
@@ -48,12 +52,12 @@ public class MenuItemRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MenuItem> createWithLocation(@PathVariable int menuId, @RequestBody MenuItemTo menuItemTo) {
+    public ResponseEntity<MenuItemTo> createWithLocation(@PathVariable int menuId, @RequestBody MenuItemTo menuItemTo) {
         MenuItem created = this.service.create(menuItemTo.toEntity(), menuId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path(MenuUtil.replacePathVariable(REST_URL, menuId) + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
+        return ResponseEntity.created(uriOfNewResource).body(MenuItemUtil.toDto(created));
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

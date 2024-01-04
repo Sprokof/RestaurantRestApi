@@ -14,7 +14,6 @@ import java.util.Set;
 public class MenuTestData {
     public static final MatcherFactory.Matcher<Menu> MENU_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Menu.class,"restaurantId", "time", "menuItems");
     public static final MatcherFactory.Matcher<MenuTo> MENU_TO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(MenuTo.class,"restaurantId", "time", "menuItemTos", "actual");
-
     public static final int MENU_ID = 1;
     public static final int CREATED_MENU_ID = 4;
     public static final int NOT_FOUND = 0;
@@ -46,11 +45,9 @@ public class MenuTestData {
     }
 
     public static MenuTo getUpdatedTo() {
-        Menu updated = new Menu(MENU_1);
-        updated.setDate(LocalDate.now());
-        updated.setId(MENU_ID);
-        updated.addItem(new MenuItem("updatedMenuDish", 130));
-        return MenuUtil.toDto(updated);
+        MenuTo to = MenuUtil.toDto(getUpdated());
+        to.setDate(LocalDate.now().plusDays(1));
+        return to;
     }
 
 
