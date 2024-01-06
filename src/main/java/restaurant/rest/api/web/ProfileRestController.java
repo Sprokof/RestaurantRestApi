@@ -21,7 +21,7 @@ import static restaurant.rest.api.util.ValidationUtil.assureIdConsistent;
 
 @RestController
 @RequestMapping(value = ProfileRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name="Профиль", description="Управление профилем пользователя")
+@Tag(name="Profile", description="Manage user's profile")
 @SecurityRequirement(name = "basicAuth")
 public class ProfileRestController {
     static final String REST_URL = "/rest/profile";
@@ -34,8 +34,8 @@ public class ProfileRestController {
 
     @GetMapping
     @Operation(
-            summary = "Получение пользователя",
-            description = "Позволяет получить пользователя"
+            summary = "Get user",
+            description = "Let to get user"
     )
     public User get() {
         log.info("get {}", authUserId());
@@ -45,8 +45,8 @@ public class ProfileRestController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
-            summary = "Уадение пользователя",
-            description = "Позволяет удалить пользователя"
+            summary = "Delete user",
+            description = "Let tro delete user"
     )
     public void delete() {
         log.info("delete {}", authUserId());
@@ -56,10 +56,10 @@ public class ProfileRestController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
-            summary = "Обновление пользователя",
-            description = "Позволяет обновить пользователя"
+            summary = "Update user",
+            description = "Let to update user"
     )
-    public void update(@RequestBody @NotNull @Parameter(description = "сущность пользователя") UserTo userTo) {
+    public void update(@RequestBody @NotNull @Parameter(description = "user's entity") UserTo userTo) {
         User user = userTo.toEntity();
         log.info("update {} with id={}", user, authUserId());
         assureIdConsistent(user, authUserId());
@@ -69,8 +69,8 @@ public class ProfileRestController {
 
     @GetMapping("/with-votes")
     @Operation(
-            summary = "Получение пользователя вместе с его голосами",
-            description = "Позволяет получить пользователя вместе с его голосами"
+            summary = "Get user with votes",
+            description = "Let to get user with votes"
     )
     public UserTo getWithVotes(){
         log.info("getWithVotes");
@@ -79,8 +79,8 @@ public class ProfileRestController {
 
     @GetMapping("/with-last-vote")
     @Operation(
-            summary = "Получение пользователя вместе с его последним голосом",
-            description = "Позволяет получить пользователя вместе с его последним голосом"
+            summary = "Get user with last votes",
+            description = "Let to get user with last votes"
     )
     public UserTo getWithLastVote() {
         log.info("getWithLastVote");

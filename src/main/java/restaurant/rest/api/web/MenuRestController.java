@@ -1,8 +1,11 @@
 package restaurant.rest.api.web;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,7 @@ import static restaurant.rest.api.util.ValidationUtil.assureIdConsistent;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name="Меню", description="Управление меню")
+@Tag(name="Menu", description="Manage menu")
 @SecurityRequirement(name = "basicAuth")
 public class MenuRestController {
 
@@ -43,8 +46,8 @@ public class MenuRestController {
 
     @GetMapping(REST_ADMIN_URL)
     @Operation(
-            summary = "Получение всех меню заданного ресторана",
-            description = "Позволяет получить все меню заданного ресторана"
+            summary = "Get all menus given restaurant",
+            description = "Let to get all menus given restaurant"
     )
     public List<MenuTo> getAll(@PathVariable int restaurantId){
         log.info("getAll");
@@ -53,40 +56,44 @@ public class MenuRestController {
 
     @GetMapping(REST_ADMIN_URL + "/{id}")
     @Operation(
-            summary = "Получение меню заданного ресторана по id",
-            description = "Позволяет получить меню заданного ресторана по id"
+            summary = "Get menu given restaurant by id",
+            description = "Let to get menu given restaurant by id"
     )
-    public MenuTo get(@PathVariable int restaurantId, @PathVariable int id){
+    public MenuTo get(@PathVariable @Min(1) @Parameter(description = "restaurant's ID") int restaurantId,
+                      @PathVariable @Min(1) @Parameter(description = "menu's ID") int id){
         log.info("get {}", id);
         return MenuUtil.toDto(service.get(id, restaurantId));
     }
 
     @DeleteMapping(REST_ADMIN_URL + "/{id}")
     @Operation(
-            summary = "Удаление меню заданного ресторана по id",
-            description = "Позволяет удалить меню заданного ресторана по id"
+            summary = "Delete menu given restaurant by id",
+            description = "Let to delete menu given restaurant by id"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int restaurantId, @PathVariable int id){
+    public void delete(@PathVariable @Min(1) @Parameter(description = "restaurant's ID") int restaurantId,
+                       @PathVariable @Min(1) @Parameter(description = "menu's ID") int id){
         service.delete(id, restaurantId);
     }
 
     @GetMapping(REST_ADMIN_URL + "/by-date")
     @Operation(
-            summary = "Получение меню заданного ресторана по дате создания",
-            description = "Позволяет получить меню заданного ресторана по дате создания"
+            summary = "Get menu given restaurant by create/update date",
+            description = "Let to get menu given restaurant by create/update date"
     )
-    public MenuTo getByDate(@PathVariable int restaurantId, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+    public MenuTo getByDate(@PathVariable @Min(1) @Parameter(description = "restaurant's ID") int restaurantId,
+                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Parameter(description = "menu create/update date", example = "yyyy-MM-dd") LocalDate date){
         log.info("getByDate {}", date);
         return MenuUtil.toDto(service.getByDate(date, restaurantId));
     }
 
     @PostMapping(value = REST_ADMIN_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
-            summary = "Создание нового меню для заданного ресторана",
-            description = "Позволяет создать новое меню для заданного ресторана, если меню на текущую дату не было создано/обновлено"
+            summary = "Create new menu for given restaurant",
+            description = "Let to create new menu for given restaurant, if menu not created/updated"
     )
-    public ResponseEntity<MenuTo> createWithLocation(@PathVariable int restaurantId, @RequestBody MenuTo menuTo) {
+    public ResponseEntity<MenuTo> createWithLocation(@PathVariable @Min(1) @Parameter(description = "restaurant's ID") int restaurantId,
+                                                     @RequestBody @NotNull @Parameter(description = "menu's entity") MenuTo menuTo) {
         Menu menu = menuTo.toEntity();
         if(service.exist(menu.getDate(), restaurantId)){
             throw new ResourceNotCreatedException("Resource can not be created");
@@ -100,8 +107,8 @@ public class MenuRestController {
 
     @PutMapping(value = REST_ADMIN_URL + "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
-            summary = "Обновление меню заданного ресторана",
-            description = "Позволяет обновить меню заданного ресторана, если меню на текущую дату не было создано/обновлено"
+            summary = "Update menu given restaurant",
+            description = "Let to update menu given restaurant, if menu not created/updated"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable int restaurantId, @RequestBody MenuTo menuTo, @PathVariable int id) {
@@ -117,8 +124,8 @@ public class MenuRestController {
 
     @GetMapping(REST_URL)
     @Operation(
-            summary = "Получение последнего меню заданного ресторана",
-            description = "Позволяет получить последнее меню заданного ресторана"
+            summary = "Get last menu given restaurant",
+            description = "Let to get last menu given restaurant"
     )
     public MenuTo getLast(@PathVariable int restaurantId){
         log.info("getLast {}", restaurantId);

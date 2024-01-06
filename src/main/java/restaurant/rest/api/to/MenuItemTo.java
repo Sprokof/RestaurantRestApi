@@ -11,7 +11,7 @@ import restaurant.rest.api.model.MenuItem;
 @Getter
 @Setter
 @NoArgsConstructor
-@Schema(description = "Сущность пункта в меню")
+@Schema(description = "Menu's item entity")
 public class MenuItemTo extends AbstractBaseTo {
     private String dish;
     private double price;

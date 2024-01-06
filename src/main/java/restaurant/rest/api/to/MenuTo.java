@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-@Schema(description = "Сущность меню")
+@Schema(description = "Menu's entity")
 public class MenuTo extends AbstractBaseTo {
     private LocalDate date;
     private LocalTime time;
-    @Schema(description = "Список пунктов в меню")
+    @Schema(description = "List of menu's items")
     private List<MenuItemTo> menuItemTos;
 
     @Override

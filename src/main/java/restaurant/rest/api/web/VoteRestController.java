@@ -29,7 +29,7 @@ import static restaurant.rest.api.util.ValidationUtil.assureIdConsistent;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name="Голоса", description="Управление голосами")
+@Tag(name="Votes", description="Manage votes")
 @SecurityRequirement(name = "basicAuth")
 public class VoteRestController {
     private static final Logger log = LoggerFactory.getLogger(VoteRestController.class);
@@ -44,27 +44,36 @@ public class VoteRestController {
 
     @GetMapping(RESTAURANT_REST_URL + "/{id}")
     @Operation(
-            summary = "Получение голоса по id",
-            description = "Позволяет получить голос по id и restaurantId вместе с пользователем"
+            summary = "Get restaurant's vote by id",
+            description = "Let to get restaurant's vote by id and restaurantId with user"
     )
-    public VoteTo getByRestaurantId(@PathVariable @Min(1) @Parameter(description = "индентификатор голоса") int id,
-                                    @PathVariable @Min(1) @Parameter(description = "индентификатор ресторана") int restaurantId){
+    public VoteTo getByRestaurantId(@PathVariable @Min(1) @Parameter(description = "vote's ID") int id,
+                                    @PathVariable @Min(1) @Parameter(description = "restaurant's ID") int restaurantId){
         return VoteUtil.toDtoWithUser(this.voteService.getByRestaurantId(id, restaurantId));
     }
 
     @GetMapping(PROFILE_REST_URL + "/{id}")
     @Operation(
-            summary = "Получение голоса по id",
-            description = "Позволяет получить голос по id вместе с рестораном"
+            summary = "Get user's vote by id",
+            description = "Let to get user's vote by id with restaurant"
     )
-    public VoteTo get(@PathVariable @Min(1) @Parameter(description = "индентификатор голоса") int id){
+    public VoteTo get(@PathVariable @Min(1) @Parameter(description = "vote's ID") int id){
         return VoteUtil.toDtoWithRestaurant(this.voteService.getByUserId(id, authUserId()));
+    }
+
+    @GetMapping(PROFILE_REST_URL + "/last")
+    @Operation(
+            summary = "Get last user's vote",
+            description = "Let to get last user vote"
+    )
+    public VoteTo getLastByUserId(){
+        return VoteUtil.toDto(this.voteService.getLastByUserId(authUserId()));
     }
 
     @GetMapping(PROFILE_REST_URL)
     @Operation(
-            summary = "Получение всех голосов пользователя",
-            description = "Позволяет получить все голоса вместе пользователя вместе с рестораном"
+            summary = "Get all user's votes",
+            description = "Get all user's votes with restaurant"
     )
     public Set<VoteTo> getAll(){
         return VoteUtil.toDtosWithRestaurant(this.voteService.getAllByUserId(authUserId()));
@@ -72,10 +81,10 @@ public class VoteRestController {
 
     @GetMapping(ADMIN_REST_URL)
     @Operation(
-            summary = "Получение всех голосов пользователя по userId",
-            description = "Позволяет получить все голоса по userId пользователя вместе с рестораном"
+            summary = "Get all user's votes by userId",
+            description = "Let to get all user's votes by userId with restaurants"
     )
-    public Set<VoteTo> getAllByUserId(@PathVariable @Min(1) @Parameter(description = "индентификатор пользователя") int userId){
+    public Set<VoteTo> getAllByUserId(@PathVariable @Min(1) @Parameter(description = "user's ID") int userId){
         return VoteUtil.toDtosWithRestaurant(this.voteService.getAllByUserId(userId));
     }
 
@@ -90,28 +99,32 @@ public class VoteRestController {
 
     @GetMapping(RESTAURANT_REST_URL)
     @Operation(
-            summary = "Получение всех последних голосов ресторана по restaurantId",
-            description = "Позволяет получить все последние ресторана по restaurantId ресторана вместе с пользователем"
+            summary = "Get all last restaurant's votes by restaurantId",
+            description = "Let to get all last restaurant's votes by restaurantId with user"
     )
-    public Set<VoteTo> getAllLastByRestaurantId(@PathVariable @Min(1) @Parameter(description = "индентификатор ресторана") int restaurantId){
+    public Set<VoteTo> getAllLastByRestaurantId(@PathVariable @Min(1) @Parameter(description = "restaurant's ID") int restaurantId){
         return VoteUtil.toDtosWithUser(this.voteService.getAllLastByRestaurantId(restaurantId));
     }
 
     @DeleteMapping(PROFILE_REST_URL + "/{id}")
     @Operation(
-            summary = "Удаление голоса по id",
-            description = "Позволяет удалить голос по id"
+            summary = "Delete vote by id",
+            description = "Let to delete vote by id"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable @Min(1) @Parameter(description = "индентификатор голоса") int id) {
+    public void delete(@PathVariable @Min(1) @Parameter(description = "vote's id") int id) {
         log.info("delete vote {} for user {}", id, authUserId());
         this.voteService.delete(id, authUserId());
     }
 
 
     @PostMapping(value = RESTAURANT_REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createWithLocation(@PathVariable @Min(1) @Parameter(description = "индентификатор ресторана") int restaurantId,
-                                                   @RequestBody @NotNull @Parameter(description = "сущность голоса") VoteTo voteTo) {
+    @Operation(
+            summary = "Create vote by id",
+            description = "Let to create vote by id"
+    )
+    public ResponseEntity<Vote> createWithLocation(@PathVariable @Min(1) @Parameter(description = "restaurant's ID") int restaurantId,
+                                                   @RequestBody @NotNull @Parameter(description = "vote's entity") VoteTo voteTo) {
         Vote created = this.voteService.create(voteTo.toEntity(), authUserId(), restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(RestaurantUtil.replacePathVariable(RESTAURANT_REST_URL, restaurantId) + "/{id}")
@@ -120,9 +133,13 @@ public class VoteRestController {
     }
 
     @PutMapping(value = RESTAURANT_REST_URL + "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(
+            summary = "Update vote by id",
+            description = "Let to update vote by id"
+    )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable @Min(1) @Parameter(description = "индентификатор ресторана") int restaurantId,
-                       @RequestBody @NotNull @Parameter(description = "сущность голоса") VoteTo voteTo, @PathVariable int id) {
+    public void update(@PathVariable @Min(1) @Parameter(description = "restaurant's ID") int restaurantId,
+                       @RequestBody @NotNull @Parameter(description = "vote's entity") VoteTo voteTo, @PathVariable int id) {
         if(!VoteUtil.accept(voteTo.getVoteTime())){
             throw new ResourceNotUpdatedException("Resource can not be updated");
         }

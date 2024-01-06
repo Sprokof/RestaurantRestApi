@@ -73,5 +73,9 @@ public class DataJpaVoteRepository implements VoteRepository {
         return this.voteRepository.delete(id, userId) != 0;
     }
 
+    @Override
+    public Vote getByDateAndUserId(LocalDate date, int userId) {
+        return this.voteRepository.getByDateAndUserId(date, userId);
+    }
 }
 

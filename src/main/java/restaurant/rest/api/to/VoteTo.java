@@ -14,7 +14,7 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
-@Schema(description = "Сущность голоса")
+@Schema(description = "Vote's entity")
 public class VoteTo extends AbstractBaseTo {
     private LocalDate voteDate;
     private LocalTime voteTime;

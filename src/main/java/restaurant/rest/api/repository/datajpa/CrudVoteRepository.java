@@ -28,5 +28,8 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @Query("SELECT v FROM Vote v WHERE v.voteDate = (SELECT max(v.voteDate) FROM Vote v WHERE v.restaurant.id=:r_id) AND v.restaurant.id=:r_id")
     List<Vote> getAllLastByRestaurantId(@Param("r_id") int restaurantId);
 
+    @Query("SELECT v FROM Vote v WHERE v.voteDate=:date AND v.user.id=:u_id")
+    Vote getByDateAndUserId(@Param("date") LocalDate date, @Param("u_id") int userId);
+
 
 }

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
-@Schema(description = "Сущность ресторана")
+@Schema(description = "Restaurant's entity")
 public class RestaurantTo extends AbstractBaseTo {
     private String name;
     private String description;

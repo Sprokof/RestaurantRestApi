@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
-@Schema(description = "Сущность пользователя")
+@Schema(description = "User's entity")
 public class UserTo extends AbstractBaseTo {
     private String username;
     private String email;

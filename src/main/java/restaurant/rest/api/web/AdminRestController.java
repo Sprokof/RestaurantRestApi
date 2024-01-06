@@ -28,7 +28,7 @@ import static restaurant.rest.api.util.ValidationUtil.assureIdConsistent;
 
 @RestController
 @RequestMapping(value = AdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name="Администратор", description="Управление пользователями")
+@Tag(name="Administrator", description="Manage users")
 @SecurityRequirement(name = "basicAuth")
 public class AdminRestController {
     static final String REST_URL = "/rest/admin/users";
@@ -39,8 +39,8 @@ public class AdminRestController {
 
     @GetMapping
     @Operation(
-            summary = "Получение пользователей",
-            description = "Позволяет получить всех пользователей"
+            summary = "Get all users",
+            description = "Let to get all users"
     )
     public List<UserTo> getAll() {
         log.info("getAll");
@@ -49,8 +49,8 @@ public class AdminRestController {
 
     @GetMapping("/{id}")
     @Operation(
-            summary = "Получение пользователя по id",
-            description = "Позволяет получить пользователя по id"
+            summary = "Get user by id",
+            description = "Let to get user by id"
     )
     public UserTo get(@PathVariable int id) {
         log.info("get {}", id);
@@ -59,29 +59,29 @@ public class AdminRestController {
 
     @GetMapping("/{id}/with-votes")
     @Operation(
-            summary = "Получение пользователя по id вместе с его голосами",
-            description = "Позволяет получить пользователя по id вместе с его голосами"
+            summary = "Get users by id with votes",
+            description = "Let to get user by id with votes"
     )
-    public UserTo getWithVotes(@PathVariable @Min(1) @Parameter(description = "Идентификатор пользователя") int id){
+    public UserTo getWithVotes(@PathVariable @Min(1) @Parameter(description = "user's ID") int id){
         log.info("get {}", id);
         return UserUtil.toDtoWithVotes(userService.getWithVotes(id));
     }
     @GetMapping("/{id}/with-last-vote")
     @Operation(
-            summary = "Получение пользователя по id вместе с его последним голосом",
-            description = "Позволяет получить пользователя по id вместе с его последним голосом"
+            summary = "Get user by id with last votes",
+            description = "Let get user by id with last votes"
     )
-    public UserTo getWithLastVote(@PathVariable @Min(1) @Parameter(description = "Идентификатор пользователя") int id) {
+    public UserTo getWithLastVote(@PathVariable @Min(1) @Parameter(description = "user's ID") int id) {
         log.info("get {}", id);
         return UserUtil.toDtoWithVotes(userService.getWithLastVote(id));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
-            summary = "Добавление нового пользователя",
-            description = "Позволяет добавить нового пользователя"
+            summary = "Create new user",
+            description = "Let to create new user"
     )
-    public ResponseEntity<UserTo> createWithLocation(@RequestBody @NotNull @Parameter(description = "сущность пользователя") UserTo userTo) {
+    public ResponseEntity<UserTo> createWithLocation(@RequestBody @NotNull @Parameter(description = "user's entity") UserTo userTo) {
         User created = this.userService.create(userTo.toEntity() );
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -91,22 +91,22 @@ public class AdminRestController {
 
     @DeleteMapping("/{id}")
     @Operation(
-            summary = "Удаление пользователя по id",
-            description = "Позволяет удалить пользователя по id"
+            summary = "Delete user by id",
+            description = "Let delete user by id"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable @Min(1) @Parameter(description = "индентификатор пользователя") int id) {
+    public void delete(@PathVariable @Min(1) @Parameter(description = "user's ID") int id) {
         this.userService.delete(id);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
-            summary = "Обновление пользователя по id",
-            description = "Позволяет обновить пользователя по id"
+            summary = "Update user by id",
+            description = "Let to update user by id"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody @NotNull @Parameter(description = "сущность пользователя") UserTo userTo,
-                       @PathVariable @Min(1) @Parameter(description = "индентификатор пользователя") int id) {
+    public void update(@RequestBody @NotNull @Parameter(description = "user's entity") UserTo userTo,
+                       @PathVariable @Min(1) @Parameter(description = "user's ID") int id) {
         log.info("update {} with id={}", userTo, id);
         User user = userTo.toEntity();
         assureIdConsistent(user, id);
@@ -115,20 +115,20 @@ public class AdminRestController {
 
     @GetMapping(value = "/by-email")
     @Operation(
-            summary = "Получение пользователя по email",
-            description = "Позволяет получить пользователя по email"
+            summary = "Get user by email",
+            description = "Let to get user by email"
     )
-    public UserTo getByMail(@RequestParam @Email @Parameter(description = "email пользователя") String email) {
+    public UserTo getByMail(@RequestParam @Email @Parameter(description = "user's email") String email) {
         log.info("get {}", email);
         return UserUtil.toDto(userService.getByEmail(email));
     }
 
     @GetMapping(value = "/by-username")
     @Operation(
-            summary = "Получение пользователя по username",
-            description = "Позволяет получить пользователя по username"
+            summary = "Get user by username",
+            description = "Let to get user by username"
     )
-    public UserTo getByUsername(@RequestParam @NotBlank @Parameter(description = "username пользователя")String username) {
+    public UserTo getByUsername(@RequestParam @NotBlank @Parameter(description = "user's username")String username) {
         log.info("get {}", username);
         return UserUtil.toDto(userService.getByUsername(username));
     }

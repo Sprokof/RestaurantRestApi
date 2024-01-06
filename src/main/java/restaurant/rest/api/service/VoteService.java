@@ -35,7 +35,7 @@ public class VoteService {
                 "id=" + id  + ", userId=" + userId);
     }
     public Vote getByRestaurantId(int id, int restaurantId){
-        return checkNotFound(this.repository.getByUserId(id, restaurantId),
+        return checkNotFound(this.repository.getByRestaurantId(id, restaurantId),
                 "id=" + id  + ", restaurantId=" + restaurantId);
     }
     public Vote getByUserId(int id, int userId){
@@ -51,5 +51,9 @@ public class VoteService {
     }
     public List<Vote> getAllLastByRestaurantId(int restaurantId){
         return this.repository.getAllLastByRestaurantId(restaurantId);
+    }
+
+    public Vote getLastByUserId(int userId){
+        return this.repository.getByDateAndUserId(LocalDate.now(), userId);
     }
 }
